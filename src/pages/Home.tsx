@@ -5,7 +5,7 @@ import {
   MapPin, Route, FileInput, RefreshCw,
   Plug, Shield, Zap, Download, ChevronDown, ChevronUp,
 } from "lucide-react";
-import { startCheckout, DOWNLOAD_URL, type Plan } from "@/lib/api";
+import { startCheckout, DOWNLOAD_URL, DOWNLOAD_URL_MAC, type Plan } from "@/lib/api";
 
 // ─── Apple light palette ─────────────────────────────────────────────────────
 const C = {
@@ -149,7 +149,7 @@ export default function Home() {
               className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base border transition-colors hover:border-black/15"
               style={{ borderColor: C.surface1, color: C.subtext0 }}
             >
-              Free trial — 1 change
+              Free trial — try free
             </a>
           </motion.div>
 
@@ -263,7 +263,7 @@ export default function Home() {
             className="grid md:grid-cols-3 gap-6 relative"
           >
             {[
-              { num: "01", color: C.green,  icon: <Plug size={20} />,    title: "Connect via USB",       body: "Plug your iPhone into your Windows PC. GhostPin installs all required Apple drivers automatically." },
+              { num: "01", color: C.green,  icon: <Plug size={20} />,    title: "Connect via USB",       body: "Plug your iPhone into your Windows PC or Mac. GhostPin installs all required Apple drivers automatically on Windows." },
               { num: "02", color: C.pink,   icon: <Shield size={20} />,   title: "Enable Developer Mode", body: "On your iPhone: Settings → Privacy & Security → Developer Mode. One-time toggle." },
               { num: "03", color: C.mauve,  icon: <MapPin size={20} />,   title: "Click the map",         body: "Your iPhone moves wherever you click. Route mode, GPX import, and speed controls are all in the sidebar." },
             ].map(({ num, color, icon, title, body }) => (
@@ -384,50 +384,81 @@ export default function Home() {
         <motion.div
           initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }} viewport={{ once: true }}
-          className="max-w-2xl mx-auto text-center"
+          className="max-w-3xl mx-auto text-center"
         >
-          <div
-            className="p-12 rounded-3xl border relative overflow-hidden"
-            style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
-          >
-            {/* no glow (Apple) */}
+          <p className="text-5xl mb-4">👻</p>
+          <h2 className="text-3xl font-extrabold mb-3" style={{ color: C.text }}>
+            Download GhostPin
+          </h2>
+          <p className="mb-10 text-sm" style={{ color: C.subtext0 }}>
+            Free to try · No Python required · Auto-updates included
+          </p>
 
-            <div className="relative">
-              <p className="text-5xl mb-4">👻</p>
-              <h2 className="text-3xl font-extrabold mb-3" style={{ color: C.text }}>
-                Download GhostPin
-              </h2>
-              <p className="mb-8 text-sm" style={{ color: C.subtext0 }}>
-                Free to try · Windows 10 / 11 · No Python required
-              </p>
-
-              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+          <div className="grid sm:grid-cols-2 gap-4">
+            {/* Windows */}
+            <div
+              className="p-7 rounded-2xl border text-left flex flex-col gap-4"
+              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: C.surface0 }}>🪟</div>
+                <div>
+                  <p className="font-bold" style={{ color: C.text }}>Windows</p>
+                  <p className="text-xs" style={{ color: C.overlay0 }}>Windows 10 / 11 · x64</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 mt-auto">
                 <a
                   href={DOWNLOAD_URL}
-                  className="px-8 py-3.5 rounded-xl font-bold text-sm transition-all hover:scale-[1.02]"
+                  className="w-full py-3 rounded-xl font-bold text-sm text-center transition-all hover:opacity-90"
                   style={{ background: C.green, color: C.crust }}
                 >
-                  <Download size={14} className="inline mr-2 -mt-0.5" />
+                  <Download size={13} className="inline mr-1.5 -mt-0.5" />
                   Download Setup.exe
                 </a>
                 <a
                   href={DOWNLOAD_URL}
-                  className="px-8 py-3.5 rounded-xl font-bold text-sm border transition-colors"
+                  className="w-full py-3 rounded-xl font-semibold text-sm text-center border transition-colors"
                   style={{ borderColor: C.surface1, color: C.subtext0 }}
                 >
                   Portable .zip
                 </a>
               </div>
+            </div>
 
-              <div className="flex items-center justify-center gap-4 flex-wrap text-xs" style={{ color: C.overlay0 }}>
-                <span>Windows 10 / 11</span>
-                <span style={{ color: C.surface1 }}>·</span>
-                <span>~300 MB</span>
-                <span style={{ color: C.surface1 }}>·</span>
-                <span>Auto-updates included</span>
+            {/* macOS */}
+            <div
+              className="p-7 rounded-2xl border text-left flex flex-col gap-4"
+              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+            >
+              <div className="flex items-center gap-3">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: C.surface0 }}>🍎</div>
+                <div>
+                  <p className="font-bold" style={{ color: C.text }}>macOS</p>
+                  <p className="text-xs" style={{ color: C.overlay0 }}>macOS 11+ · Apple Silicon &amp; Intel</p>
+                </div>
+              </div>
+              <div className="flex flex-col gap-2 mt-auto">
+                <a
+                  href={DOWNLOAD_URL_MAC}
+                  className="w-full py-3 rounded-xl font-bold text-sm text-center transition-all hover:opacity-90"
+                  style={{ background: C.green, color: C.crust }}
+                >
+                  <Download size={13} className="inline mr-1.5 -mt-0.5" />
+                  Download .app
+                </a>
+                <a
+                  href={DOWNLOAD_URL_MAC}
+                  className="w-full py-3 rounded-xl font-semibold text-sm text-center border transition-colors"
+                  style={{ borderColor: C.surface1, color: C.subtext0 }}
+                >
+                  Portable .zip
+                </a>
               </div>
             </div>
           </div>
+
+          <p className="mt-6 text-xs" style={{ color: C.overlay0 }}>~300 MB · Auto-updates included · Free trial: 1 location change, no card</p>
         </motion.div>
       </section>
 

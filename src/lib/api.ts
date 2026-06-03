@@ -2,10 +2,16 @@
 // Base URL is configurable so previews can point at a different backend.
 const API_BASE = (import.meta.env.VITE_API_BASE ?? "https://ghostpin-backend.vercel.app").replace(/\/+$/, "");
 
-// Where the "Download" buttons point. Set VITE_DOWNLOAD_URL to your GitHub
-// Releases "latest" link or a hosted Setup.exe.
+// Where the "Download" buttons point. Both default to the releases page so
+// users always get the latest. Override with VITE_DOWNLOAD_URL / VITE_DOWNLOAD_URL_MAC
+// to link to a specific asset instead of the releases index.
+const RELEASES = "https://github.com/EithanTuy/ios-location-sim/releases/latest";
+
 export const DOWNLOAD_URL: string =
-  import.meta.env.VITE_DOWNLOAD_URL ?? "https://github.com/ghostpin/ghostpin/releases/latest";
+  import.meta.env.VITE_DOWNLOAD_URL ?? RELEASES;
+
+export const DOWNLOAD_URL_MAC: string =
+  import.meta.env.VITE_DOWNLOAD_URL_MAC ?? RELEASES;
 
 export type Plan = "monthly" | "yearly";
 
