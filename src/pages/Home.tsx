@@ -459,8 +459,26 @@ export default function Home() {
             </div>
           </div>
 
-          <p className="mt-6 text-xs" style={{ color: C.overlay0 }}>~300 MB · Auto-updates included · Free trial: 1 location change, no card</p>
+          <p className="mt-6 text-xs" style={{ color: C.overlay0 }}>~300 MB · Auto-updates included · Free trial: 10 minutes, no card</p>
         </motion.div>
+      </section>
+
+      {/* ── Test purchase (dev only) ───────────────────────────────────────── */}
+      <section className="py-8 px-6 border-t" style={{ borderColor: C.surface0 }}>
+        <div className="max-w-xs mx-auto text-center">
+          <p className="text-xs font-mono mb-3" style={{ color: C.overlay0 }}>— dev / test —</p>
+          <button
+            onClick={() => buy("test")}
+            disabled={busy !== null}
+            className="w-full py-2.5 rounded-xl font-semibold text-sm border transition-colors disabled:opacity-50"
+            style={{ borderColor: C.surface1, color: C.subtext0, background: C.mantle }}
+          >
+            {busy === "test" ? "Redirecting…" : "Test purchase — $1"}
+          </button>
+          <p className="mt-2 text-xs" style={{ color: C.overlay0 }}>
+            Full checkout → key → email flow · use Stripe test card 4242 4242 4242 4242
+          </p>
+        </div>
       </section>
 
       {/* ── Footer ─────────────────────────────────────────────────────────── */}

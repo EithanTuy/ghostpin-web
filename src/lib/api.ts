@@ -13,7 +13,7 @@ export const DOWNLOAD_URL: string =
 export const DOWNLOAD_URL_MAC: string =
   import.meta.env.VITE_DOWNLOAD_URL_MAC ?? RELEASES;
 
-export type Plan = "monthly" | "yearly";
+export type Plan = "monthly" | "yearly" | "test";
 
 export interface CheckoutStatus {
   paid: boolean;
