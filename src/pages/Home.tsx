@@ -1,233 +1,472 @@
-import { MapPin, Route, Import, RefreshCw } from "lucide-react";
-import { Link } from "react-router-dom";
 import { useState } from "react";
+import { Link } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  MapPin, Route, FileInput, RefreshCw,
+  Plug, Shield, Zap, Download, ChevronDown, ChevronUp,
+} from "lucide-react";
 import { startCheckout, DOWNLOAD_URL, type Plan } from "@/lib/api";
 
+// ─── Catppuccin Mocha ────────────────────────────────────────────────────────
+const C = {
+  base:     "#1e1e2e",
+  mantle:   "#181825",
+  crust:    "#11111b",
+  surface0: "#313244",
+  surface1: "#45475a",
+  overlay0: "#6c7086",
+  subtext0: "#a6adc8",
+  text:     "#cdd6f4",
+  green:    "#a6e3a1",
+  blue:     "#89b4fa",
+  mauve:    "#cba6f7",
+  pink:     "#f38ba8",
+  peach:    "#fab387",
+  yellow:   "#f9e2af",
+};
+
+// ─── Fade-up animation variant ───────────────────────────────────────────────
+const fadeUp = {
+  hidden: { opacity: 0, y: 24 },
+  show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
+};
+const stagger = { show: { transition: { staggerChildren: 0.1 } } };
+
+// ─── FAQ data ─────────────────────────────────────────────────────────────────
+const FAQ_ITEMS = [
+  { q: "Does it need a jailbreak?", a: "No. GhostPin uses Apple's official developer protocol over USB — the same channel Xcode uses. No jailbreak, no sideloading." },
+  { q: "Does it work on iOS 17 and later?", a: "Yes. The app automatically launches the required tunnel daemon on iOS 17+ and prompts for admin permission once. No manual setup." },
+  { q: "What iPhones and iPads does it support?", a: "Any iPhone or iPad running iOS 15 or later with Developer Mode enabled (Settings → Privacy & Security → Developer Mode)." },
+  { q: "Do I need iTunes installed?", a: "GhostPin installs everything it needs automatically on first run. No separate Apple software required beforehand." },
+  { q: "What happens to my GPS when I close the app?", a: "Your real GPS is restored automatically the moment GhostPin closes. No permanent changes are made to the device." },
+  { q: "What about the Windows SmartScreen warning?", a: "The build is unsigned, so Windows shows an \"Unknown publisher\" warning on first run. Click More info → Run anyway. This is a one-time prompt." },
+];
+
+function FAQItem({ q, a }: { q: string; a: string }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div
+      className="border-b last:border-0"
+      style={{ borderColor: C.surface0 }}
+    >
+      <button
+        onClick={() => setOpen(!open)}
+        className="w-full flex items-center justify-between py-5 text-left gap-4"
+      >
+        <span className="font-semibold" style={{ color: C.text }}>{q}</span>
+        {open
+          ? <ChevronUp size={16} style={{ color: C.subtext0, flexShrink: 0 }} />
+          : <ChevronDown size={16} style={{ color: C.subtext0, flexShrink: 0 }} />
+        }
+      </button>
+      {open && (
+        <p className="pb-5 text-sm leading-relaxed" style={{ color: C.subtext0 }}>{a}</p>
+      )}
+    </div>
+  );
+}
+
+// ─── Main ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [busy, setBusy] = useState<Plan | null>(null);
-  const [error, setError] = useState<string | null>(null);
+  const [err,  setErr]  = useState<string | null>(null);
 
   async function buy(plan: Plan) {
-    setError(null);
-    setBusy(plan);
-    try {
-      await startCheckout(plan);
-    } catch (e) {
-      setError(e instanceof Error ? e.message : "Something went wrong. Please try again.");
-      setBusy(null);
-    }
+    setErr(null); setBusy(plan);
+    try { await startCheckout(plan); }
+    catch (e) { setErr(e instanceof Error ? e.message : "Something went wrong."); setBusy(null); }
   }
 
   return (
-    <div className="min-h-screen bg-[#1e1e2e] text-[#cdd6f4] font-sans selection:bg-[#f38ba8] selection:text-[#1e1e2e]">
-      {/* Navbar */}
-      <nav className="border-b border-[#313244] sticky top-0 bg-[#1e1e2e]/90 backdrop-blur z-50">
-        <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2 text-xl font-bold text-white">
-            <span>👻</span>
-            <span>GhostPin</span>
+    <div className="min-h-screen font-sans" style={{ background: C.base, color: C.text }}>
+
+      {/* ── Navbar ─────────────────────────────────────────────────────────── */}
+      <nav
+        className="sticky top-0 z-50 backdrop-blur-md border-b"
+        style={{ background: `${C.base}e6`, borderColor: C.surface0 }}
+      >
+        <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
+          <div className="flex items-center gap-2 font-extrabold text-lg tracking-tight" style={{ color: C.text }}>
+            <span>👻</span><span>GhostPin</span>
           </div>
-          <div className="hidden md:flex gap-6 text-sm text-[#a6adc8]">
-            <a href="#features" className="hover:text-[#cdd6f4] transition-colors">Features</a>
-            <a href="#how-it-works" className="hover:text-[#cdd6f4] transition-colors">How it works</a>
-            <a href="#pricing" className="hover:text-[#cdd6f4] transition-colors">Pricing</a>
-            <a href="#faq" className="hover:text-[#cdd6f4] transition-colors">FAQ</a>
+
+          <div className="hidden md:flex items-center gap-8 text-sm" style={{ color: C.subtext0 }}>
+            {[["#features","Features"],["#how","How it works"],["#pricing","Pricing"],["#faq","FAQ"]].map(([href,label]) => (
+              <a key={href} href={href} className="hover:text-white transition-colors">{label}</a>
+            ))}
           </div>
-          <a href="#download" className="bg-[#313244] hover:bg-[#a6adc8]/20 text-white px-4 py-2 rounded-lg text-sm font-medium transition-colors">
-            Download
+
+          <a
+            href={DOWNLOAD_URL}
+            className="hidden md:flex items-center gap-2 text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+            style={{ background: C.surface0, color: C.text }}
+          >
+            <Download size={14} /> Download
           </a>
         </div>
       </nav>
 
-      {/* Hero */}
-      <section className="pt-24 pb-16 px-6 max-w-6xl mx-auto text-center">
-        <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
-          Simulate GPS on your iPhone.<br className="hidden md:block" /> No jailbreak.
-        </h1>
-        <p className="text-lg md:text-xl text-[#a6adc8] mb-10 max-w-2xl mx-auto">
-          Click anywhere on the map to teleport your iPhone's location instantly. Route simulation, GPX import, and auto-reset included.
-        </p>
-        <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
-          <button onClick={() => buy("monthly")} disabled={busy !== null} className="bg-[#a6e3a1] text-[#1e1e2e] px-8 py-3 rounded-xl font-semibold text-lg hover:opacity-90 transition-opacity w-full sm:w-auto disabled:opacity-60">
-            {busy === "monthly" ? "Redirecting…" : "Get GhostPin — $7.99/mo"}
-          </button>
-          <a href={DOWNLOAD_URL} className="border-2 border-[#313244] text-white px-8 py-3 rounded-xl font-semibold text-lg hover:bg-[#313244] transition-colors w-full sm:w-auto">
-            Try free for one change
-          </a>
+      {/* ── Hero ───────────────────────────────────────────────────────────── */}
+      <section className="relative overflow-hidden pt-20 pb-32 px-6">
+        {/* subtle radial glow behind headline */}
+        <div
+          className="pointer-events-none absolute inset-0 flex items-center justify-center"
+          aria-hidden
+        >
+          <div
+            className="w-[700px] h-[400px] rounded-full blur-[120px] opacity-20"
+            style={{ background: `radial-gradient(ellipse, ${C.mauve}, transparent 70%)` }}
+          />
         </div>
-        {error && <p className="mt-4 text-sm text-[#f38ba8]">{error}</p>}
-        <p className="mt-4 text-sm text-[#a6adc8]">or $79.99/year · save 17%</p>
-        
-        {/* App Screenshot */}
-        <div className="mt-16 w-full max-w-4xl mx-auto rounded-2xl overflow-hidden border border-[#313244] shadow-2xl bg-[#313244] flex items-center justify-center relative">
-          <img src="/screenshot.webp" alt="GhostPin App Screenshot" className="w-full h-auto block" />
-        </div>
-      </section>
 
-      {/* Features */}
-      <section id="features" className="py-20 px-6 max-w-6xl mx-auto border-t border-[#313244]">
-        <h2 className="text-3xl font-bold text-white mb-12 text-center">Everything you need</h2>
-        <div className="grid md:grid-cols-2 gap-6">
-          <div className="bg-[#313244] p-8 rounded-2xl">
-            <div className="bg-[#1e1e2e] w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-              <MapPin className="text-[#f38ba8] w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-3">Click-to-teleport</h3>
-            <p className="text-[#a6adc8]">Click anywhere on the map. Your iPhone moves there instantly.</p>
-          </div>
-          <div className="bg-[#313244] p-8 rounded-2xl">
-            <div className="bg-[#1e1e2e] w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-              <Route className="text-[#cba6f7] w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-3">Route simulation</h3>
-            <p className="text-[#a6adc8]">Draw a multi-point path and play it back at walking, cycling, or driving speed.</p>
-          </div>
-          <div className="bg-[#313244] p-8 rounded-2xl">
-            <div className="bg-[#1e1e2e] w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-              <Import className="text-[#a6e3a1] w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-3">GPX import</h3>
-            <p className="text-[#a6adc8]">Load any .gpx file from your favourite mapping app.</p>
-          </div>
-          <div className="bg-[#313244] p-8 rounded-2xl">
-            <div className="bg-[#1e1e2e] w-12 h-12 rounded-xl flex items-center justify-center mb-6">
-              <RefreshCw className="text-[#89b4fa] w-6 h-6" />
-            </div>
-            <h3 className="text-xl font-semibold text-white mb-3">Auto-reset</h3>
-            <p className="text-[#a6adc8]">Real GPS restored automatically when you close the app.</p>
-          </div>
-        </div>
-      </section>
+        <motion.div
+          className="relative max-w-4xl mx-auto text-center"
+          initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
+        >
+          {/* badge */}
+          <motion.div variants={fadeUp} className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full text-xs font-semibold border" style={{ borderColor: C.surface1, color: C.subtext0, background: C.mantle }}>
+            <span className="w-2 h-2 rounded-full" style={{ background: C.green }} />
+            No jailbreak · No Xcode · Windows 10 / 11
+          </motion.div>
 
-      {/* How it works */}
-      <section id="how-it-works" className="py-20 px-6 max-w-6xl mx-auto border-t border-[#313244]">
-        <h2 className="text-3xl font-bold text-white mb-12 text-center">Up and running in 3 steps</h2>
-        <div className="flex flex-col md:flex-row gap-8">
-          <div className="flex-1">
-            <div className="text-[#a6e3a1] font-bold text-5xl mb-4 opacity-50">01</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Connect via USB</h3>
-            <p className="text-[#a6adc8]">Plug in your iPhone and open GhostPin on your Windows PC.</p>
-          </div>
-          <div className="flex-1">
-            <div className="text-[#f38ba8] font-bold text-5xl mb-4 opacity-50">02</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Enable Developer Mode</h3>
-            <p className="text-[#a6adc8]">Settings → Privacy & Security → Developer Mode on your iPhone.</p>
-          </div>
-          <div className="flex-1">
-            <div className="text-[#cba6f7] font-bold text-5xl mb-4 opacity-50">03</div>
-            <h3 className="text-xl font-semibold text-white mb-2">Click the map</h3>
-            <p className="text-[#a6adc8]">Your iPhone's GPS moves to wherever you click. That's it.</p>
-          </div>
-        </div>
-      </section>
+          <motion.h1
+            variants={fadeUp}
+            className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-[1.08]"
+            style={{ color: C.text }}
+          >
+            Fake your iPhone's
+            <br />
+            <span style={{ color: C.mauve }}>GPS location.</span>
+          </motion.h1>
 
-      {/* Pricing */}
-      <section id="pricing" className="py-20 px-6 max-w-6xl mx-auto border-t border-[#313244]">
-        <h2 className="text-3xl font-bold text-white mb-12 text-center">Simple pricing</h2>
-        <div className="flex flex-col md:flex-row justify-center gap-6 max-w-4xl mx-auto">
-          {/* Monthly */}
-          <div className="bg-[#313244] p-8 rounded-2xl flex-1 flex flex-col relative">
-            <h3 className="text-xl font-semibold text-white mb-2">Monthly</h3>
-            <div className="flex items-baseline gap-2 mb-2">
-              <span className="text-4xl font-bold text-white">$7.99</span>
-              <span className="text-[#a6adc8]">/ month</span>
-            </div>
-            <p className="text-[#a6adc8] mb-8">Cancel anytime</p>
-            <button onClick={() => buy("monthly")} disabled={busy !== null} className="mt-auto block w-full text-center bg-[#a6e3a1] text-[#1e1e2e] py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-60">
-              {busy === "monthly" ? "Redirecting…" : "Get started"}
+          <motion.p
+            variants={fadeUp}
+            className="text-lg md:text-xl mb-10 max-w-xl mx-auto leading-relaxed"
+            style={{ color: C.subtext0 }}
+          >
+            Click anywhere on the map — your iPhone teleports there instantly.
+            Route simulation, GPX import, and auto-reset included.
+          </motion.p>
+
+          <motion.div variants={fadeUp} className="flex flex-col sm:flex-row items-center justify-center gap-3">
+            <button
+              onClick={() => buy("monthly")}
+              disabled={busy !== null}
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
+              style={{ background: C.green, color: C.crust }}
+            >
+              {busy === "monthly" ? "Redirecting…" : "Start for $7.99 / month"}
             </button>
-          </div>
+            <a
+              href={DOWNLOAD_URL}
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base border transition-colors hover:border-white/30"
+              style={{ borderColor: C.surface1, color: C.subtext0 }}
+            >
+              Free trial — 1 change
+            </a>
+          </motion.div>
 
-          {/* Annual */}
-          <div className="bg-[#313244] border-2 border-[#a6e3a1] p-8 rounded-2xl flex-1 flex flex-col relative">
-            <div className="absolute -top-4 left-1/2 -translate-x-1/2 bg-[#a6e3a1] text-[#1e1e2e] text-xs font-bold px-3 py-1 rounded-full uppercase tracking-wide">
-              Save 17% · Best value
+          {err && <p className="mt-3 text-sm" style={{ color: C.pink }}>{err}</p>}
+          <p className="mt-3 text-xs" style={{ color: C.overlay0 }}>or $79.99 / year · save 17%</p>
+        </motion.div>
+
+        {/* screenshot */}
+        <motion.div
+          initial={{ opacity: 0, y: 40 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.7, delay: 0.15 }} viewport={{ once: true }}
+          className="mt-16 max-w-5xl mx-auto rounded-2xl overflow-hidden border shadow-2xl"
+          style={{ borderColor: C.surface0 }}
+        >
+          <img src="/screenshot.webp" alt="GhostPin App" className="w-full h-auto block" />
+        </motion.div>
+      </section>
+
+      {/* ── Features bento grid ────────────────────────────────────────────── */}
+      <section id="features" className="py-24 px-6 border-t" style={{ borderColor: C.surface0 }}>
+        <div className="max-w-6xl mx-auto">
+          <motion.div
+            initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
+            className="text-center mb-14"
+          >
+            <motion.p variants={fadeUp} className="text-xs font-bold tracking-[2px] uppercase mb-3" style={{ color: C.mauve }}>Features</motion.p>
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-extrabold" style={{ color: C.text }}>Everything you need</motion.h2>
+          </motion.div>
+
+          <motion.div
+            initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
+            className="grid md:grid-cols-3 gap-4"
+          >
+            {/* large card */}
+            <motion.div
+              variants={fadeUp}
+              className="md:col-span-2 p-8 rounded-2xl border flex flex-col gap-4"
+              style={{ background: C.mantle, borderColor: C.surface0 }}
+            >
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
+                <MapPin size={18} style={{ color: C.pink }} />
+              </div>
+              <h3 className="text-xl font-bold" style={{ color: C.text }}>Click-to-teleport</h3>
+              <p style={{ color: C.subtext0 }}>Click anywhere on the interactive map and your iPhone's GPS position updates instantly. No delay, no lag — the device reports the new location to every app on your phone in real time.</p>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              className="p-8 rounded-2xl border flex flex-col gap-4"
+              style={{ background: C.mantle, borderColor: C.surface0 }}
+            >
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
+                <Route size={18} style={{ color: C.mauve }} />
+              </div>
+              <h3 className="text-xl font-bold" style={{ color: C.text }}>Route simulation</h3>
+              <p style={{ color: C.subtext0 }}>Draw a multi-point route and play it back at walking, cycling, or driving speed.</p>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              className="p-8 rounded-2xl border flex flex-col gap-4"
+              style={{ background: C.mantle, borderColor: C.surface0 }}
+            >
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
+                <FileInput size={18} style={{ color: C.green }} />
+              </div>
+              <h3 className="text-xl font-bold" style={{ color: C.text }}>GPX import</h3>
+              <p style={{ color: C.subtext0 }}>Load any .gpx file exported from Google Maps, Strava, or any other mapping app.</p>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              className="p-8 rounded-2xl border flex flex-col gap-4"
+              style={{ background: C.mantle, borderColor: C.surface0 }}
+            >
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
+                <RefreshCw size={18} style={{ color: C.blue }} />
+              </div>
+              <h3 className="text-xl font-bold" style={{ color: C.text }}>Auto-reset</h3>
+              <p style={{ color: C.subtext0 }}>Real GPS restored the moment you close GhostPin. No persistent changes to the device.</p>
+            </motion.div>
+
+            <motion.div
+              variants={fadeUp}
+              className="p-8 rounded-2xl border flex flex-col gap-4"
+              style={{ background: C.mantle, borderColor: C.surface0 }}
+            >
+              <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
+                <Zap size={18} style={{ color: C.yellow }} />
+              </div>
+              <h3 className="text-xl font-bold" style={{ color: C.text }}>Auto-updates</h3>
+              <p style={{ color: C.subtext0 }}>New versions install silently in the background — no manual downloads ever.</p>
+            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── How it works ───────────────────────────────────────────────────── */}
+      <section id="how" className="py-24 px-6 border-t" style={{ borderColor: C.surface0 }}>
+        <div className="max-w-5xl mx-auto">
+          <motion.div
+            initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
+            className="text-center mb-16"
+          >
+            <motion.p variants={fadeUp} className="text-xs font-bold tracking-[2px] uppercase mb-3" style={{ color: C.blue }}>Setup</motion.p>
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-extrabold" style={{ color: C.text }}>Running in under 2 minutes</motion.h2>
+          </motion.div>
+
+          <motion.div
+            initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
+            className="grid md:grid-cols-3 gap-6 relative"
+          >
+            {[
+              { num: "01", color: C.green,  icon: <Plug size={20} />,    title: "Connect via USB",       body: "Plug your iPhone into your Windows PC. GhostPin installs all required Apple drivers automatically." },
+              { num: "02", color: C.pink,   icon: <Shield size={20} />,   title: "Enable Developer Mode", body: "On your iPhone: Settings → Privacy & Security → Developer Mode. One-time toggle." },
+              { num: "03", color: C.mauve,  icon: <MapPin size={20} />,   title: "Click the map",         body: "Your iPhone moves wherever you click. Route mode, GPX import, and speed controls are all in the sidebar." },
+            ].map(({ num, color, icon, title, body }) => (
+              <motion.div
+                key={num}
+                variants={fadeUp}
+                className="relative p-8 rounded-2xl border"
+                style={{ background: C.mantle, borderColor: C.surface0 }}
+              >
+                <div className="flex items-center gap-3 mb-5">
+                  <span className="text-4xl font-black opacity-25" style={{ color }}>{num}</span>
+                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: C.surface0, color }}>
+                    {icon}
+                  </div>
+                </div>
+                <h3 className="text-lg font-bold mb-2" style={{ color: C.text }}>{title}</h3>
+                <p className="text-sm leading-relaxed" style={{ color: C.subtext0 }}>{body}</p>
+              </motion.div>
+            ))}
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Pricing ────────────────────────────────────────────────────────── */}
+      <section id="pricing" className="py-24 px-6 border-t" style={{ borderColor: C.surface0 }}>
+        <div className="max-w-3xl mx-auto">
+          <motion.div
+            initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
+            className="text-center mb-14"
+          >
+            <motion.p variants={fadeUp} className="text-xs font-bold tracking-[2px] uppercase mb-3" style={{ color: C.green }}>Pricing</motion.p>
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-extrabold" style={{ color: C.text }}>Simple, honest pricing</motion.h2>
+            <motion.p variants={fadeUp} className="mt-3 text-sm" style={{ color: C.subtext0 }}>1 free location change with no account. Subscribe for unlimited use.</motion.p>
+          </motion.div>
+
+          <motion.div
+            initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
+            className="grid md:grid-cols-2 gap-5"
+          >
+            {/* Monthly */}
+            <motion.div
+              variants={fadeUp}
+              className="p-8 rounded-2xl border flex flex-col"
+              style={{ background: C.mantle, borderColor: C.surface0 }}
+            >
+              <p className="text-sm font-semibold mb-1" style={{ color: C.subtext0 }}>Monthly</p>
+              <div className="flex items-baseline gap-1.5 mb-1">
+                <span className="text-5xl font-black" style={{ color: C.text }}>$7.99</span>
+                <span className="text-sm" style={{ color: C.overlay0 }}>/mo</span>
+              </div>
+              <p className="text-xs mb-8" style={{ color: C.overlay0 }}>Cancel anytime</p>
+              <button
+                onClick={() => buy("monthly")}
+                disabled={busy !== null}
+                className="mt-auto w-full py-3 rounded-xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-60"
+                style={{ background: C.surface0, color: C.text }}
+              >
+                {busy === "monthly" ? "Redirecting…" : "Get started"}
+              </button>
+            </motion.div>
+
+            {/* Annual — highlighted */}
+            <motion.div
+              variants={fadeUp}
+              className="p-8 rounded-2xl border-2 flex flex-col relative overflow-hidden"
+              style={{ background: C.mantle, borderColor: C.green }}
+            >
+              <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: C.green, color: C.crust }}>
+                Save 17%
+              </div>
+              <p className="text-sm font-semibold mb-1" style={{ color: C.subtext0 }}>Annual</p>
+              <div className="flex items-baseline gap-1.5 mb-1">
+                <span className="text-5xl font-black" style={{ color: C.text }}>$79.99</span>
+                <span className="text-sm" style={{ color: C.overlay0 }}>/yr</span>
+              </div>
+              <p className="text-xs mb-8" style={{ color: C.overlay0 }}>$6.67/mo billed annually</p>
+              <button
+                onClick={() => buy("yearly")}
+                disabled={busy !== null}
+                className="mt-auto w-full py-3 rounded-xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-60"
+                style={{ background: C.green, color: C.crust }}
+              >
+                {busy === "yearly" ? "Redirecting…" : "Get started"}
+              </button>
+            </motion.div>
+          </motion.div>
+
+          {err && <p className="mt-4 text-sm text-center" style={{ color: C.pink }}>{err}</p>}
+        </div>
+      </section>
+
+      {/* ── FAQ ────────────────────────────────────────────────────────────── */}
+      <section id="faq" className="py-24 px-6 border-t" style={{ borderColor: C.surface0 }}>
+        <div className="max-w-2xl mx-auto">
+          <motion.div
+            initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
+            className="text-center mb-12"
+          >
+            <motion.p variants={fadeUp} className="text-xs font-bold tracking-[2px] uppercase mb-3" style={{ color: C.peach }}>FAQ</motion.p>
+            <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-extrabold" style={{ color: C.text }}>Common questions</motion.h2>
+          </motion.div>
+
+          <motion.div
+            initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }} viewport={{ once: true }}
+            className="rounded-2xl border overflow-hidden"
+            style={{ background: C.mantle, borderColor: C.surface0 }}
+          >
+            <div className="px-8">
+              {FAQ_ITEMS.map((item) => <FAQItem key={item.q} {...item} />)}
             </div>
-            <h3 className="text-xl font-semibold text-white mb-2">Annual</h3>
-            <div className="flex items-baseline gap-2 mb-2">
-              <span className="text-4xl font-bold text-white">$79.99</span>
-              <span className="text-[#a6adc8]">/ year</span>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ── Download CTA ───────────────────────────────────────────────────── */}
+      <section id="download" className="py-24 px-6 border-t" style={{ borderColor: C.surface0 }}>
+        <motion.div
+          initial={{ opacity: 0, y: 24 }} whileInView={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }} viewport={{ once: true }}
+          className="max-w-2xl mx-auto text-center"
+        >
+          <div
+            className="p-12 rounded-3xl border relative overflow-hidden"
+            style={{ background: C.mantle, borderColor: C.surface0 }}
+          >
+            {/* glow */}
+            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
+              <div className="w-64 h-32 rounded-full blur-3xl opacity-15" style={{ background: C.green }} />
             </div>
-            <p className="text-[#a6adc8] mb-8">Billed annually</p>
-            <button onClick={() => buy("yearly")} disabled={busy !== null} className="mt-auto block w-full text-center bg-[#a6e3a1] text-[#1e1e2e] py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-60">
-              {busy === "yearly" ? "Redirecting…" : "Get started"}
-            </button>
+
+            <div className="relative">
+              <p className="text-5xl mb-4">👻</p>
+              <h2 className="text-3xl font-extrabold mb-3" style={{ color: C.text }}>
+                Download GhostPin
+              </h2>
+              <p className="mb-8 text-sm" style={{ color: C.subtext0 }}>
+                Free to try · Windows 10 / 11 · No Python required
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-3 justify-center mb-6">
+                <a
+                  href={DOWNLOAD_URL}
+                  className="px-8 py-3.5 rounded-xl font-bold text-sm transition-all hover:scale-[1.02]"
+                  style={{ background: C.green, color: C.crust }}
+                >
+                  <Download size={14} className="inline mr-2 -mt-0.5" />
+                  Download Setup.exe
+                </a>
+                <a
+                  href={DOWNLOAD_URL}
+                  className="px-8 py-3.5 rounded-xl font-bold text-sm border transition-colors"
+                  style={{ borderColor: C.surface1, color: C.subtext0 }}
+                >
+                  Portable .zip
+                </a>
+              </div>
+
+              <div className="flex items-center justify-center gap-4 flex-wrap text-xs" style={{ color: C.overlay0 }}>
+                <span>Windows 10 / 11</span>
+                <span style={{ color: C.surface1 }}>·</span>
+                <span>~300 MB</span>
+                <span style={{ color: C.surface1 }}>·</span>
+                <span>Auto-updates included</span>
+              </div>
+            </div>
           </div>
-        </div>
-        <p className="text-center text-xs text-[#a6adc8] mt-8 max-w-2xl mx-auto">
-          1 free location change included with no account. Subscription required for unlimited use. All sales final — no refunds.
-        </p>
+        </motion.div>
       </section>
 
-      {/* FAQ */}
-      <section id="faq" className="py-20 px-6 max-w-3xl mx-auto border-t border-[#313244]">
-        <h2 className="text-3xl font-bold text-white mb-12 text-center">FAQ</h2>
-        <div className="space-y-8">
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-2">Does it need a jailbreak?</h4>
-            <p className="text-[#a6adc8]">No. It uses Apple's official developer protocol over USB.</p>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-2">Does it work on iOS 17 and later?</h4>
-            <p className="text-[#a6adc8]">Yes. The app launches the required tunnel daemon automatically and prompts for admin permission once.</p>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-2">What about the Windows SmartScreen warning?</h4>
-            <p className="text-[#a6adc8]">The app is unsigned. Click "More info → Run anyway" once — this is normal for indie developer tools.</p>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-2">What iPhones and iPads does it support?</h4>
-            <p className="text-[#a6adc8]">Any iPhone or iPad with Developer Mode enabled (iOS 15+).</p>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-2">What happens when I close the app?</h4>
-            <p className="text-[#a6adc8]">Your real GPS is restored automatically. No permanent changes are made.</p>
-          </div>
-          <div>
-            <h4 className="text-lg font-semibold text-white mb-2">Do I need to keep the tunnel running?</h4>
-            <p className="text-[#a6adc8]">On iOS 17+, the app handles it for you — just approve the UAC prompt once when it asks.</p>
-          </div>
-        </div>
-      </section>
-
-      {/* Download */}
-      <section id="download" className="py-20 px-6 border-t border-[#313244] text-center bg-[#1e1e2e]">
-        <div className="max-w-3xl mx-auto bg-[#313244] p-12 rounded-3xl">
-          <h2 className="text-3xl font-bold text-white mb-8">Download GhostPin for Windows</h2>
-          <a href={DOWNLOAD_URL} className="inline-block bg-[#a6e3a1] text-[#1e1e2e] px-8 py-4 rounded-xl font-semibold text-xl hover:opacity-90 transition-opacity mb-4">
-            Download Setup.exe
-          </a>
-          <p className="text-sm text-[#a6adc8] mb-6">Also available as a portable .zip — no installation required</p>
-          <div className="inline-flex gap-4 text-xs text-[#a6adc8] bg-[#1e1e2e] px-4 py-2 rounded-lg">
-            <span>Requires Windows 10 or 11</span>
-            <span>·</span>
-            <span>Python not required</span>
-            <span>·</span>
-            <span>~300 MB</span>
-          </div>
-        </div>
-      </section>
-
-      {/* Footer */}
-      <footer className="border-t border-[#313244] bg-[#11111b] py-12 px-6">
+      {/* ── Footer ─────────────────────────────────────────────────────────── */}
+      <footer className="border-t py-12 px-6" style={{ borderColor: C.surface0, background: C.crust }}>
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
-          <div className="flex items-center gap-2 text-lg font-bold text-white">
-            <span>👻</span>
-            <span>GhostPin</span>
-            <span className="text-sm font-normal text-[#a6adc8] ml-2 hidden sm:inline">· ghostpin.xyz</span>
+          <div className="flex items-center gap-2 font-extrabold text-base" style={{ color: C.text }}>
+            <span>👻</span><span>GhostPin</span>
+            <span className="font-normal text-sm ml-1 hidden sm:inline" style={{ color: C.overlay0 }}>· ghostpin.xyz</span>
           </div>
-          
-          <div className="flex flex-wrap justify-center gap-4 text-sm text-[#a6adc8]">
-            <Link to="#" className="hover:text-white transition-colors">Terms of Service</Link>
-            <Link to="#" className="hover:text-white transition-colors">Privacy Policy</Link>
-            <Link to="#" className="hover:text-white transition-colors">Acceptable Use</Link>
-            <Link to="#" className="hover:text-white transition-colors">EULA</Link>
+
+          <div className="flex flex-wrap justify-center gap-5 text-sm" style={{ color: C.overlay0 }}>
+            {[["Terms of Service","#"],["Privacy Policy","#"],["EULA","#"],["Refund Policy","#"]].map(([label, href]) => (
+              <Link key={label} to={href} className="hover:text-white transition-colors">{label}</Link>
+            ))}
+            <Link to="/account" className="hover:text-white transition-colors">Manage subscription</Link>
           </div>
         </div>
-        <div className="max-w-6xl mx-auto mt-8 text-center md:text-left text-sm text-[#a6adc8]">
-          © 2025 GhostPin. All rights reserved.
-        </div>
+        <p className="max-w-6xl mx-auto mt-8 text-xs text-center md:text-left" style={{ color: C.overlay0 }}>
+          © {new Date().getFullYear()} GhostPin. All rights reserved.
+        </p>
       </footer>
+
     </div>
   );
 }
