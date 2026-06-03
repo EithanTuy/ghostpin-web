@@ -123,12 +123,6 @@ export default function Home() {
           className="relative max-w-4xl mx-auto text-center"
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
         >
-          {/* badge */}
-          <motion.div variants={fadeUp} className="inline-flex items-center gap-2 mb-6 px-3 py-1.5 rounded-full text-xs font-semibold border" style={{ borderColor: C.surface1, color: C.subtext0, background: C.mantle }}>
-            <span className="w-2 h-2 rounded-full" style={{ background: C.green }} />
-            No jailbreak · No Xcode · Windows 10 / 11
-          </motion.div>
-
           <motion.h1
             variants={fadeUp}
             className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-[1.08]"
