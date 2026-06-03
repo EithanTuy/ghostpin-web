@@ -7,26 +7,25 @@ import {
 } from "lucide-react";
 import { startCheckout, DOWNLOAD_URL, type Plan } from "@/lib/api";
 
-// ─── Mirage — holographic palette ────────────────────────────────────────────
+// ─── Apple light palette ─────────────────────────────────────────────────────
 const C = {
-  base:     "#13151f",
-  mantle:   "#0f1117",
-  crust:    "#0a0b11",
-  surface0: "#212433",
-  surface1: "#313547",
-  overlay0: "#646b82",
-  subtext0: "#9aa1b8",
-  text:     "#e7e9f2",
-  green:    "#a78bfa",   // primary accent — violet
-  blue:     "#22d3ee",   // cyan
-  mauve:    "#e27fd0",   // orchid
-  pink:     "#fb7185",   // rose (errors)
-  peach:    "#fbbf24",   // amber
-  yellow:   "#fcd34d",
+  base:     "#f5f5f7",
+  mantle:   "#ffffff",
+  crust:    "#ffffff",
+  surface0: "#e8e8ed",
+  surface1: "#d2d2d7",
+  overlay0: "#86868b",
+  subtext0: "#6e6e73",
+  text:     "#1d1d1f",
+  green:    "#0071e3",   // primary accent — violet
+  blue:     "#0071e3",   // cyan
+  mauve:    "#5e5ce6",   // orchid
+  pink:     "#ff3b30",   // rose (errors)
+  peach:    "#ff9500",   // amber
+  yellow:   "#ff9500",
 };
 
-// aurora gradient — the Mirage signature (violet → orchid → cyan)
-const aurora = "linear-gradient(100deg, #a78bfa 0%, #e27fd0 48%, #22d3ee 100%)";
+// (Apple light theme — solid colors, no gradients)
 
 // ─── Fade-up animation variant ───────────────────────────────────────────────
 const fadeUp = {
@@ -95,7 +94,7 @@ export default function Home() {
 
           <div className="hidden md:flex items-center gap-8 text-sm" style={{ color: C.subtext0 }}>
             {[["#features","Features"],["#how","How it works"],["#pricing","Pricing"],["#faq","FAQ"]].map(([href,label]) => (
-              <a key={href} href={href} className="hover:text-white transition-colors">{label}</a>
+              <a key={href} href={href} className="hover:text-[#1d1d1f] transition-colors">{label}</a>
             ))}
           </div>
 
@@ -111,16 +110,7 @@ export default function Home() {
 
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden pt-20 pb-32 px-6">
-        {/* subtle radial glow behind headline */}
-        <div
-          className="pointer-events-none absolute inset-0 flex items-center justify-center"
-          aria-hidden
-        >
-          <div
-            className="w-[760px] h-[440px] rounded-full blur-[120px] opacity-25"
-            style={{ background: `radial-gradient(ellipse at 38% 50%, ${C.green}, transparent 60%), radial-gradient(ellipse at 66% 50%, ${C.blue}, transparent 60%)` }}
-          />
-        </div>
+        {/* hero — clean, no glow (Apple) */}
 
         <motion.div
           className="relative max-w-4xl mx-auto text-center"
@@ -133,12 +123,7 @@ export default function Home() {
           >
             Fake your iPhone's
             <br />
-            <span style={{
-              background: aurora,
-              WebkitBackgroundClip: "text",
-              backgroundClip: "text",
-              color: "transparent",
-            }}>GPS location.</span>
+            <span style={{ color: C.green }}>GPS location.</span>
           </motion.h1>
 
           <motion.p
@@ -155,13 +140,13 @@ export default function Home() {
               onClick={() => buy("monthly")}
               disabled={busy !== null}
               className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
-              style={{ background: aurora, color: C.crust }}
+              style={{ background: C.green, color: C.crust }}
             >
               {busy === "monthly" ? "Redirecting…" : "Start for $7.99 / month"}
             </button>
             <a
               href={DOWNLOAD_URL}
-              className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base border transition-colors hover:border-white/30"
+              className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base border transition-colors hover:border-black/15"
               style={{ borderColor: C.surface1, color: C.subtext0 }}
             >
               Free trial — 1 change
@@ -346,7 +331,7 @@ export default function Home() {
               className="p-8 rounded-2xl border-2 flex flex-col relative overflow-hidden"
               style={{ background: C.mantle, borderColor: C.green }}
             >
-              <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: aurora, color: C.crust }}>
+              <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: C.green, color: C.crust }}>
                 Save 17%
               </div>
               <p className="text-sm font-semibold mb-1" style={{ color: C.subtext0 }}>Annual</p>
@@ -359,7 +344,7 @@ export default function Home() {
                 onClick={() => buy("yearly")}
                 disabled={busy !== null}
                 className="mt-auto w-full py-3 rounded-xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-60"
-                style={{ background: aurora, color: C.crust }}
+                style={{ background: C.green, color: C.crust }}
               >
                 {busy === "yearly" ? "Redirecting…" : "Get started"}
               </button>
@@ -405,10 +390,7 @@ export default function Home() {
             className="p-12 rounded-3xl border relative overflow-hidden"
             style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
           >
-            {/* glow */}
-            <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
-              <div className="w-72 h-36 rounded-full blur-3xl opacity-25" style={{ background: aurora }} />
-            </div>
+            {/* no glow (Apple) */}
 
             <div className="relative">
               <p className="text-5xl mb-4">👻</p>
@@ -423,7 +405,7 @@ export default function Home() {
                 <a
                   href={DOWNLOAD_URL}
                   className="px-8 py-3.5 rounded-xl font-bold text-sm transition-all hover:scale-[1.02]"
-                  style={{ background: aurora, color: C.crust }}
+                  style={{ background: C.green, color: C.crust }}
                 >
                   <Download size={14} className="inline mr-2 -mt-0.5" />
                   Download Setup.exe
@@ -459,9 +441,9 @@ export default function Home() {
 
           <div className="flex flex-wrap justify-center gap-5 text-sm" style={{ color: C.overlay0 }}>
             {[["Terms of Service","#"],["Privacy Policy","#"],["EULA","#"],["Refund Policy","#"]].map(([label, href]) => (
-              <Link key={label} to={href} className="hover:text-white transition-colors">{label}</Link>
+              <Link key={label} to={href} className="hover:text-[#1d1d1f] transition-colors">{label}</Link>
             ))}
-            <Link to="/account" className="hover:text-white transition-colors">Manage subscription</Link>
+            <Link to="/account" className="hover:text-[#1d1d1f] transition-colors">Manage subscription</Link>
           </div>
         </div>
         <p className="max-w-6xl mx-auto mt-8 text-xs text-center md:text-left" style={{ color: C.overlay0 }}>

@@ -15,14 +15,14 @@ const NotFound = () => {
   }, [location.pathname]);
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen space-y-4 px-6 font-sans bg-[#13151f] text-[#e7e9f2]">
+    <div className="flex flex-col items-center justify-center min-h-screen space-y-4 px-6 font-sans bg-[#f5f5f7] text-[#1d1d1f]">
       <div className="text-6xl">👻</div>
       <h1 className="text-5xl font-extrabold">404</h1>
-      <p className="text-lg text-[#9aa1b8]">This page drifted off the map.</p>
+      <p className="text-lg text-[#6e6e73]">This page drifted off the map.</p>
       <button
         onClick={() => (window.location.href = "/")}
-        className="px-6 py-3 mt-4 rounded-xl font-bold text-[#0a0b11] transition-transform hover:scale-[1.02]"
-        style={{ background: "linear-gradient(100deg, #a78bfa 0%, #e27fd0 48%, #22d3ee 100%)" }}
+        className="px-6 py-3 mt-4 rounded-xl font-bold text-white transition-transform hover:scale-[1.02]"
+        style={{ background: "#0071e3" }}
       >
         Return home
       </button>
