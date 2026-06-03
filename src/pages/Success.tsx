@@ -64,51 +64,51 @@ export default function Success() {
       <div className="w-full max-w-xl text-center">
         <div className="text-5xl mb-6">🎉</div>
         <h1 className="text-3xl font-bold text-white mb-3">You're in — thanks for subscribing!</h1>
-        <p className="text-[#a6adc8] mb-8">
+        <p className="text-[#9aa1b8] mb-8">
           {email ? (
             <>
-              A copy of your license key is on its way to <span className="text-[#cdd6f4]">{email}</span>.
+              A copy of your license key is on its way to <span className="text-[#e7e9f2]">{email}</span>.
             </>
           ) : (
             "Your license key has been emailed to you."
           )}
         </p>
 
-        <div className="bg-[#181825] border border-[#313244] rounded-2xl p-6 text-left">
-          <div className="text-[10px] tracking-[1.5px] text-[#7f849c] font-bold mb-3">YOUR LICENSE KEY</div>
+        <div className="bg-[#0f1117] border border-[#212433] rounded-2xl p-6 text-left">
+          <div className="text-[10px] tracking-[1.5px] text-[#767d94] font-bold mb-3">YOUR LICENSE KEY</div>
           {state === "ready" && key ? (
             <>
-              <code className="block text-[#89b4fa] font-mono text-sm break-all mb-4">{key}</code>
+              <code className="block text-[#22d3ee] font-mono text-sm break-all mb-4">{key}</code>
               <button
                 onClick={copy}
-                className="bg-[#a6e3a1] text-[#1e1e2e] px-5 py-2 rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity"
+                className="bg-[#a78bfa] text-[#13151f] px-5 py-2 rounded-lg font-semibold text-sm hover:opacity-90 transition-opacity"
               >
                 {copied ? "Copied ✓" : "Copy key"}
               </button>
             </>
           ) : state === "error" ? (
-            <p className="text-[#f38ba8] text-sm">
+            <p className="text-[#fb7185] text-sm">
               We couldn't load your key here, but it's been emailed to you — check your inbox (and spam).
             </p>
           ) : state === "pending" ? (
-            <p className="text-[#a6adc8] text-sm">
+            <p className="text-[#9aa1b8] text-sm">
               Your key is being generated and emailed right now — check your inbox in a moment.
             </p>
           ) : (
-            <p className="text-[#a6adc8] text-sm animate-pulse">Generating your key…</p>
+            <p className="text-[#9aa1b8] text-sm animate-pulse">Generating your key…</p>
           )}
         </div>
 
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
           <a
             href={DOWNLOAD_URL}
-            className="bg-[#a6e3a1] text-[#1e1e2e] px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity"
+            className="bg-[#a78bfa] text-[#13151f] px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity"
           >
             Download GhostPin
           </a>
           <a
             href="/activate"
-            className="border-2 border-[#313244] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#313244] transition-colors"
+            className="border-2 border-[#212433] text-white px-6 py-3 rounded-xl font-semibold hover:bg-[#212433] transition-colors"
           >
             How to activate
           </a>

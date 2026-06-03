@@ -24,7 +24,7 @@ export default function Account() {
     <Shell>
       <div className="w-full max-w-md">
         <h1 className="text-3xl font-bold text-white mb-3 text-center">Manage your subscription</h1>
-        <p className="text-[#a6adc8] mb-8 text-center">
+        <p className="text-[#9aa1b8] mb-8 text-center">
           Enter the email you used at checkout. We'll open Stripe's secure billing portal where you can update
           payment, switch plan, or cancel.
         </p>
@@ -35,18 +35,18 @@ export default function Account() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             placeholder="you@example.com"
-            className="w-full bg-[#313244] border border-[#45475a] rounded-xl px-4 py-3 text-white placeholder-[#6c7086] outline-none focus:border-[#a6e3a1] transition-colors"
+            className="w-full bg-[#212433] border border-[#313547] rounded-xl px-4 py-3 text-white placeholder-[#646b82] outline-none focus:border-[#a78bfa] transition-colors"
           />
           <button
             type="submit"
             disabled={busy}
-            className="w-full bg-[#a6e3a1] text-[#1e1e2e] py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
+            className="w-full bg-[#a78bfa] text-[#13151f] py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity disabled:opacity-60"
           >
             {busy ? "Opening…" : "Open billing portal"}
           </button>
         </form>
-        {error && <p className="mt-4 text-sm text-[#f38ba8] text-center">{error}</p>}
-        <p className="mt-8 text-center text-xs text-[#6c7086]">
+        {error && <p className="mt-4 text-sm text-[#fb7185] text-center">{error}</p>}
+        <p className="mt-8 text-center text-xs text-[#646b82]">
           Lost your key? It's tied to your email — confirm your subscription here, then check the original
           license email.
         </p>

@@ -7,23 +7,26 @@ import {
 } from "lucide-react";
 import { startCheckout, DOWNLOAD_URL, type Plan } from "@/lib/api";
 
-// ─── Catppuccin Mocha ────────────────────────────────────────────────────────
+// ─── Mirage — holographic palette ────────────────────────────────────────────
 const C = {
-  base:     "#1e1e2e",
-  mantle:   "#181825",
-  crust:    "#11111b",
-  surface0: "#313244",
-  surface1: "#45475a",
-  overlay0: "#6c7086",
-  subtext0: "#a6adc8",
-  text:     "#cdd6f4",
-  green:    "#a6e3a1",
-  blue:     "#89b4fa",
-  mauve:    "#cba6f7",
-  pink:     "#f38ba8",
-  peach:    "#fab387",
-  yellow:   "#f9e2af",
+  base:     "#13151f",
+  mantle:   "#0f1117",
+  crust:    "#0a0b11",
+  surface0: "#212433",
+  surface1: "#313547",
+  overlay0: "#646b82",
+  subtext0: "#9aa1b8",
+  text:     "#e7e9f2",
+  green:    "#a78bfa",   // primary accent — violet
+  blue:     "#22d3ee",   // cyan
+  mauve:    "#e27fd0",   // orchid
+  pink:     "#fb7185",   // rose (errors)
+  peach:    "#fbbf24",   // amber
+  yellow:   "#fcd34d",
 };
+
+// aurora gradient — the Mirage signature (violet → orchid → cyan)
+const aurora = "linear-gradient(100deg, #a78bfa 0%, #e27fd0 48%, #22d3ee 100%)";
 
 // ─── Fade-up animation variant ───────────────────────────────────────────────
 const fadeUp = {
@@ -114,8 +117,8 @@ export default function Home() {
           aria-hidden
         >
           <div
-            className="w-[700px] h-[400px] rounded-full blur-[120px] opacity-20"
-            style={{ background: `radial-gradient(ellipse, ${C.mauve}, transparent 70%)` }}
+            className="w-[760px] h-[440px] rounded-full blur-[120px] opacity-25"
+            style={{ background: `radial-gradient(ellipse at 38% 50%, ${C.green}, transparent 60%), radial-gradient(ellipse at 66% 50%, ${C.blue}, transparent 60%)` }}
           />
         </div>
 
@@ -130,7 +133,12 @@ export default function Home() {
           >
             Fake your iPhone's
             <br />
-            <span style={{ color: C.mauve }}>GPS location.</span>
+            <span style={{
+              background: aurora,
+              WebkitBackgroundClip: "text",
+              backgroundClip: "text",
+              color: "transparent",
+            }}>GPS location.</span>
           </motion.h1>
 
           <motion.p
@@ -147,7 +155,7 @@ export default function Home() {
               onClick={() => buy("monthly")}
               disabled={busy !== null}
               className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
-              style={{ background: C.green, color: C.crust }}
+              style={{ background: aurora, color: C.crust }}
             >
               {busy === "monthly" ? "Redirecting…" : "Start for $7.99 / month"}
             </button>
@@ -194,7 +202,7 @@ export default function Home() {
             <motion.div
               variants={fadeUp}
               className="md:col-span-2 p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: C.mantle, borderColor: C.surface0 }}
+              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <MapPin size={18} style={{ color: C.pink }} />
@@ -206,7 +214,7 @@ export default function Home() {
             <motion.div
               variants={fadeUp}
               className="p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: C.mantle, borderColor: C.surface0 }}
+              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <Route size={18} style={{ color: C.mauve }} />
@@ -218,7 +226,7 @@ export default function Home() {
             <motion.div
               variants={fadeUp}
               className="p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: C.mantle, borderColor: C.surface0 }}
+              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <FileInput size={18} style={{ color: C.green }} />
@@ -230,7 +238,7 @@ export default function Home() {
             <motion.div
               variants={fadeUp}
               className="p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: C.mantle, borderColor: C.surface0 }}
+              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <RefreshCw size={18} style={{ color: C.blue }} />
@@ -242,7 +250,7 @@ export default function Home() {
             <motion.div
               variants={fadeUp}
               className="p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: C.mantle, borderColor: C.surface0 }}
+              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <Zap size={18} style={{ color: C.yellow }} />
@@ -278,7 +286,7 @@ export default function Home() {
                 key={num}
                 variants={fadeUp}
                 className="relative p-8 rounded-2xl border"
-                style={{ background: C.mantle, borderColor: C.surface0 }}
+                style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
               >
                 <div className="flex items-center gap-3 mb-5">
                   <span className="text-4xl font-black opacity-25" style={{ color }}>{num}</span>
@@ -314,7 +322,7 @@ export default function Home() {
             <motion.div
               variants={fadeUp}
               className="p-8 rounded-2xl border flex flex-col"
-              style={{ background: C.mantle, borderColor: C.surface0 }}
+              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
             >
               <p className="text-sm font-semibold mb-1" style={{ color: C.subtext0 }}>Monthly</p>
               <div className="flex items-baseline gap-1.5 mb-1">
@@ -338,7 +346,7 @@ export default function Home() {
               className="p-8 rounded-2xl border-2 flex flex-col relative overflow-hidden"
               style={{ background: C.mantle, borderColor: C.green }}
             >
-              <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: C.green, color: C.crust }}>
+              <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: aurora, color: C.crust }}>
                 Save 17%
               </div>
               <p className="text-sm font-semibold mb-1" style={{ color: C.subtext0 }}>Annual</p>
@@ -351,7 +359,7 @@ export default function Home() {
                 onClick={() => buy("yearly")}
                 disabled={busy !== null}
                 className="mt-auto w-full py-3 rounded-xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-60"
-                style={{ background: C.green, color: C.crust }}
+                style={{ background: aurora, color: C.crust }}
               >
                 {busy === "yearly" ? "Redirecting…" : "Get started"}
               </button>
@@ -377,7 +385,7 @@ export default function Home() {
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }} viewport={{ once: true }}
             className="rounded-2xl border overflow-hidden"
-            style={{ background: C.mantle, borderColor: C.surface0 }}
+            style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
           >
             <div className="px-8">
               {FAQ_ITEMS.map((item) => <FAQItem key={item.q} {...item} />)}
@@ -395,11 +403,11 @@ export default function Home() {
         >
           <div
             className="p-12 rounded-3xl border relative overflow-hidden"
-            style={{ background: C.mantle, borderColor: C.surface0 }}
+            style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
           >
             {/* glow */}
             <div className="pointer-events-none absolute inset-0 flex items-center justify-center" aria-hidden>
-              <div className="w-64 h-32 rounded-full blur-3xl opacity-15" style={{ background: C.green }} />
+              <div className="w-72 h-36 rounded-full blur-3xl opacity-25" style={{ background: aurora }} />
             </div>
 
             <div className="relative">
@@ -415,7 +423,7 @@ export default function Home() {
                 <a
                   href={DOWNLOAD_URL}
                   className="px-8 py-3.5 rounded-xl font-bold text-sm transition-all hover:scale-[1.02]"
-                  style={{ background: C.green, color: C.crust }}
+                  style={{ background: aurora, color: C.crust }}
                 >
                   <Download size={14} className="inline mr-2 -mt-0.5" />
                   Download Setup.exe
