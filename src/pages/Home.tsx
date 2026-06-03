@@ -5,7 +5,13 @@ import {
   MapPin, Route, FileInput, RefreshCw,
   Plug, Shield, Zap, Download, ChevronDown, ChevronUp,
 } from "lucide-react";
-import { startCheckout, DOWNLOAD_URL, DOWNLOAD_URL_MAC, type Plan } from "@/lib/api";
+import {
+  startCheckout,
+  DOWNLOAD_URL, DOWNLOAD_URL_MAC,
+  DOWNLOAD_WIN_INSTALLER, DOWNLOAD_WIN_PORTABLE,
+  DOWNLOAD_MAC_APP, DOWNLOAD_MAC_PORTABLE,
+  type Plan,
+} from "@/lib/api";
 
 // ─── Apple light palette ─────────────────────────────────────────────────────
 const C = {
@@ -410,7 +416,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-2 mt-auto">
                 <a
-                  href={DOWNLOAD_URL}
+                  href={DOWNLOAD_WIN_INSTALLER}
                   className="w-full py-3 rounded-xl font-bold text-sm text-center transition-all hover:opacity-90"
                   style={{ background: C.green, color: C.crust }}
                 >
@@ -418,7 +424,7 @@ export default function Home() {
                   Download Setup.exe
                 </a>
                 <a
-                  href={DOWNLOAD_URL}
+                  href={DOWNLOAD_WIN_PORTABLE}
                   className="w-full py-3 rounded-xl font-semibold text-sm text-center border transition-colors"
                   style={{ borderColor: C.surface1, color: C.subtext0 }}
                 >
@@ -441,7 +447,7 @@ export default function Home() {
               </div>
               <div className="flex flex-col gap-2 mt-auto">
                 <a
-                  href={DOWNLOAD_URL_MAC}
+                  href={DOWNLOAD_MAC_APP}
                   className="w-full py-3 rounded-xl font-bold text-sm text-center transition-all hover:opacity-90"
                   style={{ background: C.green, color: C.crust }}
                 >
@@ -449,7 +455,7 @@ export default function Home() {
                   Download .app
                 </a>
                 <a
-                  href={DOWNLOAD_URL_MAC}
+                  href={DOWNLOAD_MAC_PORTABLE}
                   className="w-full py-3 rounded-xl font-semibold text-sm text-center border transition-colors"
                   style={{ borderColor: C.surface1, color: C.subtext0 }}
                 >

@@ -2,16 +2,26 @@
 // Base URL is configurable so previews can point at a different backend.
 const API_BASE = (import.meta.env.VITE_API_BASE ?? "https://ghostpin-backend.vercel.app").replace(/\/+$/, "");
 
-// Where the "Download" buttons point. Both default to the releases page so
-// users always get the latest. Override with VITE_DOWNLOAD_URL / VITE_DOWNLOAD_URL_MAC
-// to link to a specific asset instead of the releases index.
-const RELEASES = "https://github.com/EithanTuy/ios-location-sim/releases/latest";
+// Download URLs route through the Vercel backend proxy so the GitHub repo can
+// stay private. The proxy uses GITHUB_TOKEN server-side to get a signed S3 URL
+// and redirects the browser there — no GitHub auth required by the end user.
+const _DL = `${API_BASE}/api/download`;
 
-export const DOWNLOAD_URL: string =
-  import.meta.env.VITE_DOWNLOAD_URL ?? RELEASES;
+export const DOWNLOAD_WIN_INSTALLER: string =
+  import.meta.env.VITE_DOWNLOAD_WIN_INSTALLER ?? `${_DL}?platform=windows&type=installer`;
 
-export const DOWNLOAD_URL_MAC: string =
-  import.meta.env.VITE_DOWNLOAD_URL_MAC ?? RELEASES;
+export const DOWNLOAD_WIN_PORTABLE: string =
+  import.meta.env.VITE_DOWNLOAD_WIN_PORTABLE ?? `${_DL}?platform=windows&type=portable`;
+
+export const DOWNLOAD_MAC_APP: string =
+  import.meta.env.VITE_DOWNLOAD_MAC_APP ?? `${_DL}?platform=macos&type=app`;
+
+export const DOWNLOAD_MAC_PORTABLE: string =
+  import.meta.env.VITE_DOWNLOAD_MAC_PORTABLE ?? `${_DL}?platform=macos&type=portable`;
+
+// Back-compat aliases used elsewhere in the site.
+export const DOWNLOAD_URL     = DOWNLOAD_WIN_INSTALLER;
+export const DOWNLOAD_URL_MAC = DOWNLOAD_MAC_APP;
 
 export type Plan = "monthly" | "yearly" | "test";
 
