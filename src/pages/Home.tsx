@@ -41,7 +41,6 @@ const FAQ_ITEMS = [
   { q: "What iPhones and iPads does it support?", a: "Any iPhone or iPad running iOS 15 or later with Developer Mode enabled (Settings → Privacy & Security → Developer Mode)." },
   { q: "Do I need iTunes installed?", a: "GhostPin installs everything it needs automatically on first run. No separate Apple software required beforehand." },
   { q: "What happens to my GPS when I close the app?", a: "Your real GPS is restored automatically the moment GhostPin closes. No permanent changes are made to the device." },
-  { q: "What about the Windows SmartScreen warning?", a: "The build is unsigned, so Windows shows an \"Unknown publisher\" warning on first run. Click More info → Run anyway. This is a one-time prompt." },
   { q: "Windows shows an 'Unknown publisher' warning — is that normal?", a: "Yes. GhostPin isn't code-signed yet, so Windows SmartScreen shows a one-time warning. Click 'More info' then 'Run anyway'. This prompt only appears on first launch." },
   { q: "macOS says GhostPin can't be opened because the developer can't be verified.", a: "Right-click (or Control-click) GhostPin.app and choose 'Open', then click 'Open' in the dialog. This one-time override is needed because the build is unsigned. After that, it opens normally." },
 ];
