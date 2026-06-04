@@ -9,6 +9,7 @@ import Terms from "./pages/Terms";
 import Privacy from "./pages/Privacy";
 import EULA from "./pages/EULA";
 import Refund from "./pages/Refund";
+import Download from "./pages/Download";
 import NotFound from "./pages/NotFound";
 
 function ScrollToTop() {
@@ -34,6 +35,7 @@ function App() {
         <Route path="/privacy" element={<Privacy />} />
         <Route path="/eula" element={<EULA />} />
         <Route path="/refund" element={<Refund />} />
+        <Route path="/download" element={<Download />} />
 
         {/* IMPORTANT: DO NOT place any routes below this. */}
         <Route path="*" element={<NotFound />} />
