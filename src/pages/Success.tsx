@@ -1,7 +1,7 @@
 ﻿import { useEffect, useState, useCallback } from "react";
-import { useSearchParams } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import Shell from "@/components/Shell";
-import { getCheckoutStatus, DOWNLOAD_URL } from "@/lib/api";
+import { getCheckoutStatus } from "@/lib/api";
 
 type State = "loading" | "ready" | "pending" | "error";
 
@@ -99,18 +99,18 @@ export default function Success() {
         </div>
 
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
-          <a
-            href={DOWNLOAD_URL}
+          <Link
+            to="/download"
             className="bg-[#0071e3] text-[#f5f5f7] px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity"
           >
             Download GhostPin
-          </a>
-          <a
-            href="/activate"
+          </Link>
+          <Link
+            to="/activate"
             className="border-2 border-[#e8e8ed] text-[#1d1d1f] px-6 py-3 rounded-xl font-semibold hover:bg-[#e8e8ed] transition-colors"
           >
             How to activate
-          </a>
+          </Link>
         </div>
       </div>
     </Shell>
