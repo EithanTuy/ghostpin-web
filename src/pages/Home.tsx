@@ -13,7 +13,6 @@ import {
   type Plan,
 } from "@/lib/api";
 
-// ─── Apple light palette ─────────────────────────────────────────────────────
 const C = {
   base:     "#f5f5f7",
   mantle:   "#ffffff",
@@ -23,24 +22,26 @@ const C = {
   overlay0: "#86868b",
   subtext0: "#6e6e73",
   text:     "#1d1d1f",
-  green:    "#0071e3",   // primary accent — violet
-  blue:     "#0071e3",   // cyan
-  mauve:    "#5e5ce6",   // orchid
-  pink:     "#ff3b30",   // rose (errors)
-  peach:    "#ff9500",   // amber
+  green:    "#0071e3",
+  blue:     "#0071e3",
+  mauve:    "#5e5ce6",
+  pink:     "#ff3b30",
+  peach:    "#ff9500",
   yellow:   "#ff9500",
 };
 
-// (Apple light theme — solid colors, no gradients)
+const cardStyle = {
+  background: "#ffffff",
+  border: "1px solid #e8e8ed",
+  boxShadow: "0 1px 4px rgba(0,0,0,0.06)",
+};
 
-// ─── Fade-up animation variant ───────────────────────────────────────────────
 const fadeUp = {
   hidden: { opacity: 0, y: 24 },
   show:   { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } },
 };
 const stagger = { show: { transition: { staggerChildren: 0.1 } } };
 
-// ─── FAQ data ─────────────────────────────────────────────────────────────────
 const FAQ_ITEMS = [
   { q: "Does it need a jailbreak?", a: "No. GhostPin uses Apple's official developer protocol over USB — the same channel Xcode uses. No jailbreak, no sideloading." },
   { q: "Does it work on iOS 17 and later?", a: "Yes. The app automatically launches the required tunnel daemon on iOS 17+ and prompts for admin permission once. No manual setup." },
@@ -75,7 +76,6 @@ function FAQItem({ q, a }: { q: string; a: string }) {
   );
 }
 
-// ─── Main ─────────────────────────────────────────────────────────────────────
 export default function Home() {
   const [busy, setBusy] = useState<Plan | null>(null);
   const [err,  setErr]  = useState<string | null>(null);
@@ -87,12 +87,12 @@ export default function Home() {
   }
 
   return (
-    <div className="min-h-screen font-sans" style={{ background: C.base, color: C.text }}>
+    <div className="min-h-screen font-sans" style={{ background: "#f5f5f7", color: C.text }}>
 
       {/* ── Navbar ─────────────────────────────────────────────────────────── */}
       <nav
-        className="sticky top-0 z-50 backdrop-blur-md border-b"
-        style={{ background: `${C.base}e6`, borderColor: C.surface0 }}
+        className="sticky top-0 z-50 border-b"
+        style={{ background: "rgba(245,245,247,0.9)", borderColor: C.surface0, backdropFilter: "blur(20px)", WebkitBackdropFilter: "blur(20px)" }}
       >
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-2 font-extrabold text-lg tracking-tight" style={{ color: C.text }}>
@@ -117,12 +117,20 @@ export default function Home() {
 
       {/* ── Hero ───────────────────────────────────────────────────────────── */}
       <section className="relative overflow-hidden pt-20 pb-32 px-6">
-        {/* hero — clean, no glow (Apple) */}
-
         <motion.div
           className="relative max-w-4xl mx-auto text-center"
           initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
         >
+          {/* pill badge */}
+          <motion.div variants={fadeUp} className="flex justify-center mb-6">
+            <span
+              className="inline-flex items-center px-3 py-1 rounded-full text-xs font-semibold"
+              style={{ background: C.surface0, color: C.subtext0, border: "1px solid #e8e8ed" }}
+            >
+              Version 1.2.1 — Now available
+            </span>
+          </motion.div>
+
           <motion.h1
             variants={fadeUp}
             className="text-5xl md:text-7xl font-extrabold tracking-tight mb-6 leading-[1.08]"
@@ -147,7 +155,7 @@ export default function Home() {
               onClick={() => buy("monthly")}
               disabled={busy !== null}
               className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base transition-all hover:scale-[1.02] active:scale-[0.98] disabled:opacity-60"
-              style={{ background: C.green, color: C.crust }}
+              style={{ background: C.green, color: "#ffffff" }}
             >
               {busy === "monthly" ? "Redirecting…" : "Start for $7.99 / month"}
             </button>
@@ -156,7 +164,7 @@ export default function Home() {
               className="w-full sm:w-auto px-8 py-3.5 rounded-xl font-bold text-base border transition-colors hover:border-black/15"
               style={{ borderColor: C.surface1, color: C.subtext0 }}
             >
-              Free trial — try free
+              Try free for 10 minutes
             </a>
           </motion.div>
 
@@ -193,11 +201,11 @@ export default function Home() {
             {/* large card */}
             <motion.div
               variants={fadeUp}
-              className="md:col-span-2 p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+              className="md:col-span-2 p-8 rounded-2xl flex flex-col gap-4"
+              style={cardStyle}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
-                <MapPin size={18} style={{ color: C.pink }} />
+                <MapPin size={18} style={{ color: "#0071e3" }} />
               </div>
               <h3 className="text-xl font-bold" style={{ color: C.text }}>Click-to-teleport</h3>
               <p style={{ color: C.subtext0 }}>Click anywhere on the interactive map and your iPhone's GPS position updates instantly. No delay, no lag — the device reports the new location to every app on your phone in real time.</p>
@@ -205,8 +213,8 @@ export default function Home() {
 
             <motion.div
               variants={fadeUp}
-              className="p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+              className="p-8 rounded-2xl flex flex-col gap-4"
+              style={cardStyle}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <Route size={18} style={{ color: C.mauve }} />
@@ -217,8 +225,8 @@ export default function Home() {
 
             <motion.div
               variants={fadeUp}
-              className="p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+              className="p-8 rounded-2xl flex flex-col gap-4"
+              style={cardStyle}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <FileInput size={18} style={{ color: C.green }} />
@@ -229,8 +237,8 @@ export default function Home() {
 
             <motion.div
               variants={fadeUp}
-              className="p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+              className="p-8 rounded-2xl flex flex-col gap-4"
+              style={cardStyle}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <RefreshCw size={18} style={{ color: C.blue }} />
@@ -241,8 +249,8 @@ export default function Home() {
 
             <motion.div
               variants={fadeUp}
-              className="p-8 rounded-2xl border flex flex-col gap-4"
-              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+              className="p-8 rounded-2xl flex flex-col gap-4"
+              style={cardStyle}
             >
               <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ background: C.surface0 }}>
                 <Zap size={18} style={{ color: C.yellow }} />
@@ -256,7 +264,7 @@ export default function Home() {
 
       {/* ── How it works ───────────────────────────────────────────────────── */}
       <section id="how" className="py-24 px-6 border-t" style={{ borderColor: C.surface0 }}>
-        <div className="max-w-5xl mx-auto">
+        <div className="max-w-4xl mx-auto">
           <motion.div
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
             className="text-center mb-16"
@@ -267,26 +275,38 @@ export default function Home() {
 
           <motion.div
             initial="hidden" whileInView="show" viewport={{ once: true }} variants={stagger}
-            className="grid md:grid-cols-3 gap-6 relative"
+            className="relative flex flex-col md:flex-row items-start md:items-center gap-0"
           >
+            {/* connecting line — desktop only */}
+            <div
+              className="hidden md:block absolute top-6 left-[calc(16.667%+0px)] right-[calc(16.667%+0px)] h-px"
+              style={{ background: C.surface0 }}
+            />
+
             {[
-              { num: "01", color: C.green,  icon: <Plug size={20} />,    title: "Connect via USB",       body: "Plug your iPhone into your Windows PC or Mac. GhostPin installs all required Apple drivers automatically on Windows." },
-              { num: "02", color: C.pink,   icon: <Shield size={20} />,   title: "Enable Developer Mode", body: "On your iPhone: Settings → Privacy & Security → Developer Mode. One-time toggle." },
-              { num: "03", color: C.mauve,  icon: <MapPin size={20} />,   title: "Click the map",         body: "Your iPhone moves wherever you click. Route mode, GPX import, and speed controls are all in the sidebar." },
-            ].map(({ num, color, icon, title, body }) => (
+              { num: "01", title: "Connect via USB",      body: "Plug your iPhone in — GhostPin installs drivers automatically on Windows." },
+              { num: "02", title: "Enable Developer Mode", body: "One-time toggle in Settings → Privacy & Security → Developer Mode." },
+              { num: "03", title: "Click the map",         body: "Teleport instantly. Route mode, GPX import, and speed controls in the sidebar." },
+            ].map(({ num, title, body }, i) => (
               <motion.div
                 key={num}
                 variants={fadeUp}
-                className="relative p-8 rounded-2xl border"
-                style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+                className="relative flex-1 flex flex-col items-center text-center px-6 py-4"
               >
-                <div className="flex items-center gap-3 mb-5">
-                  <span className="text-4xl font-black opacity-25" style={{ color }}>{num}</span>
-                  <div className="w-9 h-9 rounded-lg flex items-center justify-center" style={{ background: C.surface0, color }}>
-                    {icon}
-                  </div>
+                {/* vertical connector line — mobile only */}
+                {i < 2 && (
+                  <div
+                    className="md:hidden w-px h-8 mt-3 mb-0"
+                    style={{ background: C.surface0, alignSelf: "center" }}
+                  />
+                )}
+                <div
+                  className="w-12 h-12 rounded-full flex items-center justify-center font-black text-sm z-10 mb-5"
+                  style={{ background: "#0071e3", color: "#ffffff" }}
+                >
+                  {num}
                 </div>
-                <h3 className="text-lg font-bold mb-2" style={{ color: C.text }}>{title}</h3>
+                <h3 className="text-base font-bold mb-1.5" style={{ color: C.text }}>{title}</h3>
                 <p className="text-sm leading-relaxed" style={{ color: C.subtext0 }}>{body}</p>
               </motion.div>
             ))}
@@ -303,7 +323,7 @@ export default function Home() {
           >
             <motion.p variants={fadeUp} className="text-xs font-bold tracking-[2px] uppercase mb-3" style={{ color: C.green }}>Pricing</motion.p>
             <motion.h2 variants={fadeUp} className="text-3xl md:text-4xl font-extrabold" style={{ color: C.text }}>Simple, honest pricing</motion.h2>
-            <motion.p variants={fadeUp} className="mt-3 text-sm" style={{ color: C.subtext0 }}>1 free location change with no account. Subscribe for unlimited use.</motion.p>
+            <motion.p variants={fadeUp} className="mt-3 text-sm" style={{ color: C.subtext0 }}>10-minute free trial, no account required. Subscribe for unlimited use.</motion.p>
           </motion.div>
 
           <motion.div
@@ -313,8 +333,8 @@ export default function Home() {
             {/* Monthly */}
             <motion.div
               variants={fadeUp}
-              className="p-8 rounded-2xl border flex flex-col"
-              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+              className="p-8 rounded-2xl flex flex-col"
+              style={cardStyle}
             >
               <p className="text-sm font-semibold mb-1" style={{ color: C.subtext0 }}>Monthly</p>
               <div className="flex items-baseline gap-1.5 mb-1">
@@ -335,10 +355,10 @@ export default function Home() {
             {/* Annual — highlighted */}
             <motion.div
               variants={fadeUp}
-              className="p-8 rounded-2xl border-2 flex flex-col relative overflow-hidden"
-              style={{ background: C.mantle, borderColor: C.green }}
+              className="p-8 rounded-2xl flex flex-col relative overflow-hidden"
+              style={{ background: "#ffffff", border: "2px solid #0071e3", boxShadow: "0 1px 4px rgba(0,0,0,0.06)" }}
             >
-              <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: C.green, color: C.crust }}>
+              <div className="absolute top-4 right-4 px-2.5 py-1 rounded-full text-xs font-bold" style={{ background: C.green, color: "#ffffff" }}>
                 Save 17%
               </div>
               <p className="text-sm font-semibold mb-1" style={{ color: C.subtext0 }}>Annual</p>
@@ -351,7 +371,7 @@ export default function Home() {
                 onClick={() => buy("yearly")}
                 disabled={busy !== null}
                 className="mt-auto w-full py-3 rounded-xl font-bold text-sm transition-all hover:opacity-90 disabled:opacity-60"
-                style={{ background: C.green, color: C.crust }}
+                style={{ background: C.green, color: "#ffffff" }}
               >
                 {busy === "yearly" ? "Redirecting…" : "Get started"}
               </button>
@@ -376,8 +396,8 @@ export default function Home() {
           <motion.div
             initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.5 }} viewport={{ once: true }}
-            className="rounded-2xl border overflow-hidden"
-            style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+            className="rounded-2xl overflow-hidden"
+            style={cardStyle}
           >
             <div className="px-8">
               {FAQ_ITEMS.map((item) => <FAQItem key={item.q} {...item} />)}
@@ -404,8 +424,8 @@ export default function Home() {
           <div className="grid sm:grid-cols-2 gap-4">
             {/* Windows */}
             <div
-              className="p-7 rounded-2xl border text-left flex flex-col gap-4"
-              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+              className="p-7 rounded-2xl text-left flex flex-col gap-4"
+              style={cardStyle}
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: C.surface0 }}>🪟</div>
@@ -418,7 +438,7 @@ export default function Home() {
                 <a
                   href={DOWNLOAD_WIN_INSTALLER}
                   className="w-full py-3 rounded-xl font-bold text-sm text-center transition-all hover:opacity-90"
-                  style={{ background: C.green, color: C.crust }}
+                  style={{ background: C.green, color: "#ffffff" }}
                 >
                   <Download size={13} className="inline mr-1.5 -mt-0.5" />
                   Download Setup.exe
@@ -435,8 +455,8 @@ export default function Home() {
 
             {/* macOS */}
             <div
-              className="p-7 rounded-2xl border text-left flex flex-col gap-4"
-              style={{ background: `${C.mantle}cc`, borderColor: C.surface0, backdropFilter: "blur(14px)", WebkitBackdropFilter: "blur(14px)" }}
+              className="p-7 rounded-2xl text-left flex flex-col gap-4"
+              style={cardStyle}
             >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 rounded-xl flex items-center justify-center text-xl" style={{ background: C.surface0 }}>🍎</div>
@@ -449,7 +469,7 @@ export default function Home() {
                 <a
                   href={DOWNLOAD_MAC_APP}
                   className="w-full py-3 rounded-xl font-bold text-sm text-center transition-all hover:opacity-90"
-                  style={{ background: C.green, color: C.crust }}
+                  style={{ background: C.green, color: "#ffffff" }}
                 >
                   <Download size={13} className="inline mr-1.5 -mt-0.5" />
                   Download .app

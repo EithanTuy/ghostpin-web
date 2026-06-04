@@ -18,7 +18,7 @@ export default function Shell({ children }: { children: ReactNode }) {
       </nav>
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-16">{children}</main>
       <footer className="border-t border-[#e8e8ed] bg-[#ffffff] py-6 px-6 text-center text-sm text-[#6e6e73]">
-        © 2025 GhostPin · ghostpin.xyz
+        © {new Date().getFullYear()} GhostPin · ghostpin.xyz
       </footer>
     </div>
   );
