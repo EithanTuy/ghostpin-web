@@ -1,10 +1,9 @@
-import Shell from "@/components/Shell";
+﻿import Shell from "@/components/Shell";
 
 export default function Cancel() {
   return (
     <Shell>
       <div className="w-full max-w-md text-center">
-        <div className="text-5xl mb-6">🛒</div>
         <h1 className="text-3xl font-bold text-[#1d1d1f] mb-3">Checkout canceled</h1>
         <p className="text-[#6e6e73] mb-8">No charge was made. You can pick a plan whenever you're ready.</p>
         <div className="flex flex-col sm:flex-row gap-3 justify-center">

@@ -1,4 +1,4 @@
-import type { ReactNode } from "react";
+﻿import type { ReactNode } from "react";
 import { Link } from "react-router-dom";
 
 /** Shared page chrome for the non-landing pages (success, account, etc.). */
@@ -8,7 +8,6 @@ export default function Shell({ children }: { children: ReactNode }) {
       <nav className="border-b border-[#e8e8ed] bg-[#f5f5f7]/90 backdrop-blur">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-[#1d1d1f]">
-            <span>👻</span>
             <span>GhostPin</span>
           </Link>
           <Link to="/account" className="text-sm text-[#6e6e73] hover:text-[#1d1d1f] transition-colors">

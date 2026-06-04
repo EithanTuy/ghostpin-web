@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+﻿import { useEffect, useState, useCallback } from "react";
 import { useSearchParams } from "react-router-dom";
 import Shell from "@/components/Shell";
 import { getCheckoutStatus, DOWNLOAD_URL } from "@/lib/api";
@@ -62,7 +62,6 @@ export default function Success() {
   return (
     <Shell>
       <div className="w-full max-w-xl text-center">
-        <div className="text-5xl mb-6">🎉</div>
         <h1 className="text-3xl font-bold text-[#1d1d1f] mb-3">You're in — thanks for subscribing!</h1>
         <p className="text-[#6e6e73] mb-8">
           {email ? (

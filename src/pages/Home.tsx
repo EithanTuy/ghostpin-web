@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { startCheckout, type Plan } from "@/lib/api";
 
@@ -102,7 +102,7 @@ export default function Home() {
       {/* Nav */}
       <nav style={{ borderBottom: "1px solid #e5e5e5", position: "sticky", top: 0, background: "#fff", zIndex: 100 }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ fontWeight: 700, fontSize: "17px" }}>👻 GhostPin</div>
+          <div style={{ fontWeight: 700, fontSize: "17px" }}>GhostPin</div>
           <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
             <a href="#features" style={navLink}>Features</a>
             <a href="#pricing" style={navLink}>Pricing</a>
@@ -303,7 +303,7 @@ export default function Home() {
       {/* Footer */}
       <footer style={{ borderTop: "1px solid #e5e5e5", background: "#fafafa", padding: "40px 24px" }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
-          <p style={{ fontSize: "14px", fontWeight: 700, margin: 0 }}>👻 GhostPin</p>
+          <p style={{ fontSize: "14px", fontWeight: 700, margin: 0 }}>GhostPin</p>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 20, fontSize: "13px" }}>
             {([ ["Terms of Service", "/terms"], ["Privacy Policy", "/privacy"], ["EULA", "/eula"], ["Refund Policy", "/refund"], ["Download", "/download"], ["Manage subscription", "/account"] ] as [string, string][]).map(([label, href]) => (
               <Link key={label} to={href} style={{ color: "#666", textDecoration: "none" }}>{label}</Link>

@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+﻿import { useState, useEffect } from "react";
 import { Link, useSearchParams } from "react-router-dom";
 import { startCheckout, type Plan } from "@/lib/api";
 
@@ -35,7 +35,7 @@ export default function Plans() {
       {/* Nav */}
       <nav style={{ borderBottom: "1px solid #e5e5e5", position: "sticky", top: 0, background: "#fff", zIndex: 100 }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link to="/" style={{ fontWeight: 700, fontSize: "17px", textDecoration: "none", color: "#111" }}>👻 GhostPin</Link>
+          <Link to="/" style={{ fontWeight: 700, fontSize: "17px", textDecoration: "none", color: "#111" }}>GhostPin</Link>
           <Link to="/" style={{ fontSize: "14px", color: "#555", textDecoration: "none" }}>← Back</Link>
         </div>
       </nav>

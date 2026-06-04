@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+﻿import { Link } from "react-router-dom";
 import {
   DOWNLOAD_WIN_INSTALLER,
   DOWNLOAD_WIN_PORTABLE,
@@ -13,7 +13,7 @@ export default function Download() {
       {/* Nav */}
       <nav style={{ borderBottom: "1px solid #e5e5e5", position: "sticky", top: 0, background: "#fff", zIndex: 100 }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <Link to="/" style={{ fontWeight: 700, fontSize: "17px", textDecoration: "none", color: "#111" }}>👻 GhostPin</Link>
+          <Link to="/" style={{ fontWeight: 700, fontSize: "17px", textDecoration: "none", color: "#111" }}>GhostPin</Link>
           <Link to="/" style={{ fontSize: "14px", color: "#555", textDecoration: "none" }}>← Back to home</Link>
         </div>
       </nav>
@@ -28,7 +28,7 @@ export default function Download() {
         {/* Windows — primary */}
         <section style={{ marginBottom: 48 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <span style={{ fontSize: "22px" }}>🪟</span>
+            <span style={{ fontSize: "22px" }}></span>
             <h2 style={{ fontSize: "20px", fontWeight: 700, margin: 0 }}>Windows</h2>
             <span style={{ fontSize: "12px", fontWeight: 700, background: "#0071e3", color: "#fff", padding: "2px 8px", borderRadius: 4, marginLeft: 4 }}>Recommended</span>
           </div>
@@ -88,7 +88,7 @@ export default function Download() {
         {/* macOS — secondary */}
         <section style={{ marginBottom: 48 }}>
           <div style={{ display: "flex", alignItems: "center", gap: 10, marginBottom: 16 }}>
-            <span style={{ fontSize: "22px" }}>🍎</span>
+            <span style={{ fontSize: "22px" }}></span>
             <h2 style={{ fontSize: "20px", fontWeight: 700, margin: 0 }}>macOS</h2>
             <span style={{ fontSize: "12px", fontWeight: 700, background: "#888", color: "#fff", padding: "2px 8px", borderRadius: 4, marginLeft: 4 }}>Beta</span>
           </div>

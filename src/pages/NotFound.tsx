@@ -1,4 +1,4 @@
-import { useLocation } from "react-router-dom";
+﻿import { useLocation } from "react-router-dom";
 import { useEffect } from "react";
 
 /**
@@ -16,7 +16,6 @@ const NotFound = () => {
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen space-y-4 px-6 font-sans bg-[#f5f5f7] text-[#1d1d1f]">
-      <div className="text-6xl">👻</div>
       <h1 className="text-5xl font-extrabold">404</h1>
       <p className="text-lg text-[#6e6e73]">This page drifted off the map.</p>
       <button
