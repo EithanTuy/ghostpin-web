@@ -102,7 +102,10 @@ export default function Home() {
       {/* Nav */}
       <nav style={{ borderBottom: "1px solid #e5e5e5", position: "sticky", top: 0, background: "#fff", zIndex: 100 }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", padding: "0 24px", height: 56, display: "flex", alignItems: "center", justifyContent: "space-between" }}>
-          <div style={{ fontWeight: 700, fontSize: "17px" }}>GhostPin</div>
+          <div style={{ fontWeight: 700, fontSize: "17px", display: "flex", alignItems: "center", gap: 8 }}>
+            <span style={{ fontSize: "22px", filter: "drop-shadow(0 0 6px rgba(0,113,227,0.45))" }}>👻</span>
+            GhostPin
+          </div>
           <div style={{ display: "flex", alignItems: "center", gap: 28 }}>
             <a href="#features" style={navLink}>Features</a>
             <a href="#pricing" style={navLink}>Pricing</a>
@@ -122,6 +125,7 @@ export default function Home() {
 
       {/* Hero */}
       <section style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px 64px" }}>
+        <div style={{ fontSize: "72px", lineHeight: 1, marginBottom: 24, filter: "drop-shadow(0 0 24px rgba(0,113,227,0.35))" }}>👻</div>
         <p style={{ fontSize: "13px", fontWeight: 600, color: "#0071e3", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.06em" }}>
           iPhone GPS simulator for Windows
         </p>
