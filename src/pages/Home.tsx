@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { startCheckout, type Plan } from "@/lib/api";
 
@@ -71,9 +71,19 @@ function FAQ({ q, a }: { q: string; a: string }) {
 // ─── Page ─────────────────────────────────────────────────────────────────────
 
 export default function Home() {
+  // plan toggle state (display only on home — actual checkout is on /plans)
+  const [plan, setPlan] = useState<"yearly" | "monthly">("yearly");
+
+  // test purchase only
   const [busy, setBusy] = useState<Plan | null>(null);
   const [err, setErr] = useState<string | null>(null);
-  const [plan, setPlan] = useState<"yearly" | "monthly">("yearly");
+
+  // Reset "Redirecting…" after 5 s in case navigation stalls
+  useEffect(() => {
+    if (!busy) return;
+    const t = setTimeout(() => setBusy(null), 5000);
+    return () => clearTimeout(t);
+  }, [busy]);
 
   async function buy(p: Plan) {
     setErr(null);
@@ -125,18 +135,13 @@ export default function Home() {
           Works with iPhone and iPad · Developer Mode required · USB connection
         </p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
-          <button
-            onClick={() => buy("yearly")}
-            disabled={busy !== null}
-            style={{ ...btnPrimary, opacity: busy !== null ? 0.6 : 1 }}
-          >
-            {busy === "yearly" ? "Redirecting…" : "Get started — $6.60/mo"}
-          </button>
+          <Link to="/plans" style={btnPrimary}>
+            Get started — $6.60/mo
+          </Link>
           <Link to="/download" style={btnSecondary}>
             Free 24-hour trial
           </Link>
         </div>
-        {err && <p style={{ marginTop: 12, fontSize: "14px", color: "#c00" }}>{err}</p>}
         <p style={{ marginTop: 14, fontSize: "13px", color: "#999" }}>
           $79.99/year · 24-hour free trial · no account needed · cancel anytime
         </p>
@@ -191,7 +196,7 @@ export default function Home() {
       </section>
 
       {/* Pricing */}
-      <section id="pricing" style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px" }}>
+      <section id="pricing" style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px", textAlign: "center" }}>
         <h2 style={sectionTitle}>Pricing</h2>
         <p style={{ fontSize: "15px", color: "#555", margin: "-8px 0 32px" }}>
           24-hour free trial included. No account needed to try.
@@ -209,7 +214,6 @@ export default function Home() {
               cursor: "pointer",
               background: plan === "yearly" ? "#0071e3" : "#fff",
               color: plan === "yearly" ? "#fff" : "#555",
-              transition: "background 0.15s, color 0.15s",
             }}
           >
             Yearly
@@ -225,14 +229,13 @@ export default function Home() {
               cursor: "pointer",
               background: plan === "monthly" ? "#0071e3" : "#fff",
               color: plan === "monthly" ? "#fff" : "#555",
-              transition: "background 0.15s, color 0.15s",
             }}
           >
             Monthly
           </button>
         </div>
 
-        <div style={{ maxWidth: 340 }}>
+        <div style={{ maxWidth: 340, margin: "0 auto", textAlign: "left" }}>
           {plan === "yearly" ? (
             <div style={{ border: "2px solid #0071e3", borderRadius: 8, padding: "28px", position: "relative" }}>
               <span style={{ position: "absolute", top: 16, right: 16, background: "#0071e3", color: "#fff", fontSize: "11px", fontWeight: 700, padding: "3px 8px", borderRadius: 4 }}>
@@ -245,13 +248,9 @@ export default function Home() {
               </div>
               <p style={{ fontSize: "13px", color: "#888", margin: "0 0 4px" }}>$79.99 billed once per year</p>
               <p style={{ fontSize: "12px", color: "#aaa", margin: "0 0 28px" }}>Save 17% vs monthly</p>
-              <button
-                onClick={() => buy("yearly")}
-                disabled={busy !== null}
-                style={{ ...btnPrimaryBlock, opacity: busy !== null ? 0.6 : 1 }}
-              >
-                {busy === "yearly" ? "Redirecting…" : "Get started"}
-              </button>
+              <Link to="/plans?plan=yearly" style={{ ...btnPrimaryBlock, display: "block", textDecoration: "none", textAlign: "center" }}>
+                Get started
+              </Link>
             </div>
           ) : (
             <div style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: "28px" }}>
@@ -262,17 +261,12 @@ export default function Home() {
               </div>
               <p style={{ fontSize: "13px", color: "#888", margin: "0 0 4px" }}>Billed monthly</p>
               <p style={{ fontSize: "12px", color: "#aaa", margin: "0 0 28px" }}>Cancel anytime</p>
-              <button
-                onClick={() => buy("monthly")}
-                disabled={busy !== null}
-                style={{ ...btnSecondaryBlock, opacity: busy !== null ? 0.6 : 1 }}
-              >
-                {busy === "monthly" ? "Redirecting…" : "Get started"}
-              </button>
+              <Link to="/plans?plan=monthly" style={{ ...btnSecondaryBlock, display: "block", textDecoration: "none", textAlign: "center" }}>
+                Get started
+              </Link>
             </div>
           )}
         </div>
-        {err && <p style={{ marginTop: 16, fontSize: "14px", color: "#c00" }}>{err}</p>}
       </section>
 
       {/* FAQ */}
