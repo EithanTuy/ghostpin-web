@@ -39,8 +39,33 @@ const FAQS = [
   },
 ];
 
-function FAQ({ q, a }: { q: string; a: string }) {
+function FAQ({ q, a, highlight }: { q: string; a: string; highlight: string }) {
   const [open, setOpen] = useState(false);
+
+  // Auto-expand when there's a search match
+  const term = highlight.toLowerCase().trim();
+  const matches = term.length > 1 && (
+    q.toLowerCase().includes(term) || a.toLowerCase().includes(term)
+  );
+
+  // Highlight matching text
+  function hl(text: string) {
+    if (!term || term.length < 2) return text;
+    const idx = text.toLowerCase().indexOf(term);
+    if (idx === -1) return text;
+    return (
+      <>
+        {text.slice(0, idx)}
+        <mark style={{ background: "#fff3b0", borderRadius: 2, padding: "0 1px" }}>
+          {text.slice(idx, idx + term.length)}
+        </mark>
+        {text.slice(idx + term.length)}
+      </>
+    );
+  }
+
+  const isOpen = open || matches;
+
   return (
     <div style={{ borderBottom: "1px solid #e5e5e5" }}>
       <button
@@ -58,11 +83,11 @@ function FAQ({ q, a }: { q: string; a: string }) {
           gap: "16px",
         }}
       >
-        <span style={{ fontWeight: 600, fontSize: "15px", color: "#111" }}>{q}</span>
-        <span style={{ color: "#888", fontSize: "20px", flexShrink: 0, lineHeight: 1 }}>{open ? "−" : "+"}</span>
+        <span style={{ fontWeight: 600, fontSize: "15px", color: "#111" }}>{hl(q)}</span>
+        <span style={{ color: "#888", fontSize: "20px", flexShrink: 0, lineHeight: 1 }}>{isOpen ? "−" : "+"}</span>
       </button>
-      {open && (
-        <p style={{ margin: "0 0 18px", fontSize: "14px", lineHeight: 1.7, color: "#555" }}>{a}</p>
+      {isOpen && (
+        <p style={{ margin: "0 0 18px", fontSize: "14px", lineHeight: 1.7, color: "#555" }}>{hl(a)}</p>
       )}
     </div>
   );
@@ -73,6 +98,7 @@ function FAQ({ q, a }: { q: string; a: string }) {
 export default function Home() {
   // plan toggle state (display only on home — actual checkout is on /plans)
   const [plan, setPlan] = useState<"yearly" | "monthly">("yearly");
+  const [faqSearch, setFaqSearch] = useState("");
 
   // test purchase only
   const [busy, setBusy] = useState<Plan | null>(null);
@@ -277,7 +303,66 @@ export default function Home() {
       <section id="faq" style={{ background: "#f6f6f6", borderTop: "1px solid #e5e5e5", borderBottom: "1px solid #e5e5e5" }}>
         <div style={{ maxWidth: 680, margin: "0 auto", padding: "72px 24px" }}>
           <h2 style={sectionTitle}>Common questions</h2>
-          {FAQS.map((item) => <FAQ key={item.q} {...item} />)}
+
+          {/* Search box */}
+          <div style={{ position: "relative", marginBottom: 28 }}>
+            <span style={{
+              position: "absolute", left: 12, top: "50%", transform: "translateY(-50%)",
+              color: "#aaa", fontSize: "15px", pointerEvents: "none",
+            }}>🔍</span>
+            <input
+              type="text"
+              placeholder="Search questions…"
+              value={faqSearch}
+              onChange={e => setFaqSearch(e.target.value)}
+              style={{
+                width: "100%",
+                boxSizing: "border-box",
+                padding: "11px 16px 11px 36px",
+                fontSize: "14px",
+                border: "1.5px solid #ddd",
+                borderRadius: 8,
+                background: "#fff",
+                outline: "none",
+                color: "#111",
+                fontFamily: "inherit",
+                transition: "border-color 0.15s",
+              }}
+              onFocus={e => (e.target.style.borderColor = "#0071e3")}
+              onBlur={e => (e.target.style.borderColor = "#ddd")}
+            />
+            {faqSearch && (
+              <button
+                onClick={() => setFaqSearch("")}
+                style={{
+                  position: "absolute", right: 10, top: "50%", transform: "translateY(-50%)",
+                  background: "none", border: "none", cursor: "pointer",
+                  color: "#aaa", fontSize: "16px", lineHeight: 1, padding: "2px 4px",
+                }}
+                aria-label="Clear search"
+              >×</button>
+            )}
+          </div>
+
+          {/* Results */}
+          {(() => {
+            const term = faqSearch.toLowerCase().trim();
+            const filtered = term.length < 2
+              ? FAQS
+              : FAQS.filter(f =>
+                  f.q.toLowerCase().includes(term) || f.a.toLowerCase().includes(term)
+                );
+            return filtered.length > 0
+              ? filtered.map((item) => <FAQ key={item.q} {...item} highlight={faqSearch} />)
+              : (
+                <p style={{ color: "#888", fontSize: "14px", padding: "24px 0" }}>
+                  No questions match "{faqSearch}". &nbsp;
+                  <button onClick={() => setFaqSearch("")} style={{ background: "none", border: "none", color: "#0071e3", cursor: "pointer", fontSize: "14px", fontWeight: 600 }}>
+                    Clear search
+                  </button>
+                </p>
+              );
+          })()}
         </div>
       </section>
 
@@ -307,7 +392,10 @@ export default function Home() {
       {/* Footer */}
       <footer style={{ borderTop: "1px solid #e5e5e5", background: "#fafafa", padding: "40px 24px" }}>
         <div style={{ maxWidth: 1080, margin: "0 auto", display: "flex", flexWrap: "wrap", justifyContent: "space-between", alignItems: "center", gap: 16 }}>
-          <p style={{ fontSize: "14px", fontWeight: 700, margin: 0 }}>GhostPin</p>
+          <div style={{ display: "flex", alignItems: "center", gap: 8, fontWeight: 700, fontSize: "14px" }}>
+            <span style={{ fontSize: "20px", filter: "drop-shadow(0 0 5px rgba(0,113,227,0.4))" }}>👻</span>
+            GhostPin
+          </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 20, fontSize: "13px" }}>
             {([ ["Terms of Service", "/terms"], ["Privacy Policy", "/privacy"], ["EULA", "/eula"], ["Refund Policy", "/refund"], ["Download", "/download"], ["Manage subscription", "/account"] ] as [string, string][]).map(([label, href]) => (
               <Link key={label} to={href} style={{ color: "#666", textDecoration: "none" }}>{label}</Link>
