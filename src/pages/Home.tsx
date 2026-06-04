@@ -24,7 +24,10 @@ export default function Home() {
       <nav className="border-b border-[#313244] sticky top-0 bg-[#1e1e2e]/90 backdrop-blur z-50">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-xl font-bold text-white">
-            <span>👻</span>
+            <span
+              className="text-2xl select-none"
+              style={{ filter: "drop-shadow(0 0 8px rgba(137,180,250,0.65))" }}
+            >👻</span>
             <span>GhostPin</span>
           </div>
           <div className="hidden md:flex gap-6 text-sm text-[#a6adc8]">
@@ -41,6 +44,15 @@ export default function Home() {
 
       {/* Hero */}
       <section className="pt-24 pb-16 px-6 max-w-6xl mx-auto text-center">
+        {/* Ghost logo mark */}
+        <div className="flex justify-center mb-6">
+          <span
+            className="text-7xl md:text-8xl select-none"
+            style={{ filter: "drop-shadow(0 0 28px rgba(137,180,250,0.7))" }}
+          >
+            👻
+          </span>
+        </div>
         <h1 className="text-4xl md:text-6xl font-extrabold text-white mb-6 tracking-tight">
           Simulate GPS on your iPhone.<br className="hidden md:block" /> No jailbreak.
         </h1>
@@ -212,7 +224,10 @@ export default function Home() {
       <footer className="border-t border-[#313244] bg-[#11111b] py-12 px-6">
         <div className="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
           <div className="flex items-center gap-2 text-lg font-bold text-white">
-            <span>👻</span>
+            <span
+              className="text-2xl select-none"
+              style={{ filter: "drop-shadow(0 0 8px rgba(137,180,250,0.65))" }}
+            >👻</span>
             <span>GhostPin</span>
             <span className="text-sm font-normal text-[#a6adc8] ml-2 hidden sm:inline">· ghostpin.xyz</span>
           </div>

@@ -8,7 +8,10 @@ export default function Shell({ children }: { children: ReactNode }) {
       <nav className="border-b border-[#313244] bg-[#1e1e2e]/90 backdrop-blur">
         <div className="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
           <Link to="/" className="flex items-center gap-2 text-xl font-bold text-white">
-            <span>👻</span>
+            <span
+              className="text-2xl select-none"
+              style={{ filter: "drop-shadow(0 0 8px rgba(137,180,250,0.65))" }}
+            >👻</span>
             <span>GhostPin</span>
           </Link>
           <Link to="/account" className="text-sm text-[#a6adc8] hover:text-[#cdd6f4] transition-colors">
