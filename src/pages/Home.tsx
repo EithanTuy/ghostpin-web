@@ -1,6 +1,5 @@
-﻿import { useState, useEffect } from "react";
+﻿import { useState } from "react";
 import { Link } from "react-router-dom";
-import { startCheckout, type Plan } from "@/lib/api";
 
 // ─── FAQ ─────────────────────────────────────────────────────────────────────
 
@@ -99,28 +98,6 @@ export default function Home() {
   // plan toggle state (display only on home — actual checkout is on /plans)
   const [plan, setPlan] = useState<"yearly" | "monthly">("yearly");
   const [faqSearch, setFaqSearch] = useState("");
-
-  // test purchase only
-  const [busy, setBusy] = useState<Plan | null>(null);
-  const [err, setErr] = useState<string | null>(null);
-
-  // Reset "Redirecting…" after 5 s in case navigation stalls
-  useEffect(() => {
-    if (!busy) return;
-    const t = setTimeout(() => setBusy(null), 5000);
-    return () => clearTimeout(t);
-  }, [busy]);
-
-  async function buy(p: Plan) {
-    setErr(null);
-    setBusy(p);
-    try {
-      await startCheckout(p);
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : "Something went wrong.");
-      setBusy(null);
-    }
-  }
 
   return (
     <div style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", color: "#111", background: "#fff" }}>
@@ -372,21 +349,6 @@ export default function Home() {
         <p style={{ fontSize: "15px", color: "#555", margin: "0 0 28px" }}>Start your trial, then download and connect your iPhone. Cancel anytime before the trial ends.</p>
         <Link to="/plans" style={btnPrimary}>Start your free trial →</Link>
         <p style={{ marginTop: 16, fontSize: "13px", color: "#999" }}>Windows 10/11 · ~300 MB · Auto-updates · iOS 17+</p>
-      </section>
-
-      {/* Test purchase */}
-      <section style={{ borderTop: "1px solid #e5e5e5", padding: "32px 24px" }}>
-        <div style={{ maxWidth: 320, margin: "0 auto", textAlign: "center" }}>
-          <p style={{ fontSize: "11px", color: "#bbb", fontFamily: "monospace", marginBottom: 12 }}>— dev / test —</p>
-          <button
-            onClick={() => buy("test")}
-            disabled={busy !== null}
-            style={{ ...btnSecondaryBlock, opacity: busy !== null ? 0.6 : 1 }}
-          >
-            {busy === "test" ? "Redirecting…" : "Test purchase — $1"}
-          </button>
-          <p style={{ marginTop: 8, fontSize: "12px", color: "#bbb" }}>Stripe test card 4242 4242 4242 4242</p>
-        </div>
       </section>
 
       {/* Footer */}
