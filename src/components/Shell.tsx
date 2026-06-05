@@ -18,7 +18,8 @@ export default function Shell({ children }: { children: ReactNode }) {
       </nav>
       <main className="flex-1 flex flex-col items-center justify-center px-6 py-16">{children}</main>
       <footer className="border-t border-[#e8e8ed] bg-[#ffffff] py-6 px-6 text-center text-sm text-[#6e6e73]">
-        © {new Date().getFullYear()} GhostPin · ghostpin.xyz
+        © {new Date().getFullYear()} GhostPin · ghostpin.xyz ·{" "}
+        <a href="mailto:ghostpinsupport@gmail.com" className="text-[#0071e3] hover:underline">ghostpinsupport@gmail.com</a>
       </footer>
     </div>
   );

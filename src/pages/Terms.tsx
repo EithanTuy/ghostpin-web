@@ -87,7 +87,7 @@ export default function Terms() {
         <section className="mb-8">
           <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>11. Contact</h2>
           <p className="leading-relaxed" style={{ color: "#6e6e73" }}>
-            For questions about these Terms, contact us via the support email listed on the GhostPin website.
+            For questions about these Terms, contact us at <a href="mailto:ghostpinsupport@gmail.com" style={{ color: "#0071e3" }} className="underline">ghostpinsupport@gmail.com</a>.
           </p>
         </section>
       </div>

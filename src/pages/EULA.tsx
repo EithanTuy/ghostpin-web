@@ -96,7 +96,7 @@ export default function EULA() {
         <section className="mb-8">
           <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>12. Contact</h2>
           <p className="leading-relaxed" style={{ color: "#6e6e73" }}>
-            For questions about this Agreement, contact us via the support email listed on the GhostPin website.
+            For questions about this Agreement, contact us at <a href="mailto:ghostpinsupport@gmail.com" style={{ color: "#0071e3" }} className="underline">ghostpinsupport@gmail.com</a>.
           </p>
         </section>
       </div>

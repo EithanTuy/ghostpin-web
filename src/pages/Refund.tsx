@@ -10,23 +10,23 @@ export default function Refund() {
         <section className="mb-8">
           <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>Cancellation</h2>
           <p className="leading-relaxed" style={{ color: "#1d1d1f" }}>
-            You can cancel your subscription at any time from your account page or by emailing support. Cancellation stops future automatic renewals. You keep access until the end of the billing period you have already paid for; we do not prorate partial periods unless required by law.
+            You can cancel your subscription at any time from your account page or by emailing <a href="mailto:ghostpinsupport@gmail.com" style={{ color: "#0071e3" }} className="underline">ghostpinsupport@gmail.com</a>. Cancellation stops future automatic renewals. You keep access until the end of the billing period you have already paid for; we do not prorate partial periods.
           </p>
         </section>
 
         <section className="mb-8">
-          <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>Refunds</h2>
+          <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>No refunds — all sales are final</h2>
           <ul className="list-disc list-inside space-y-2 leading-relaxed" style={{ color: "#1d1d1f" }}>
-            <li><strong>14-day refund:</strong> If you are not satisfied, contact us within 14 days of your initial purchase and we will refund that first payment.</li>
-            <li><strong>Renewals:</strong> Charges for automatic renewals are generally non-refundable once the new period has begun, except where required by law.</li>
-            <li>Refunds are issued to your original payment method via Stripe.</li>
+            <li><strong>All payments are non-refundable.</strong> GhostPin does not offer refunds for any subscription payment, including initial purchases and automatic renewals.</li>
+            <li><strong>Try before you buy:</strong> every plan includes a <strong>24-hour free trial</strong> with no charge, so you can fully evaluate GhostPin before any payment is taken. Cancel during the trial and you will not be billed.</li>
+            <li>This no-refund policy does not limit any mandatory statutory consumer rights that cannot legally be waived in your jurisdiction.</li>
           </ul>
         </section>
 
         <section className="mb-8">
           <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>EU/UK right of withdrawal (digital content)</h2>
           <p className="leading-relaxed" style={{ color: "#1d1d1f" }}>
-            If you are a consumer in the EU/UK, you normally have a 14-day right to withdraw from a purchase. For digital content and services that begin immediately, you may be asked to <strong>consent</strong> to immediate access and to <strong>acknowledge that you lose the withdrawal right</strong> once performance begins. Where you have not given that consent, the statutory withdrawal right applies. Nothing in this policy removes mandatory consumer rights in your country.
+            If you are a consumer in the EU/UK, you normally have a 14-day right to withdraw from a purchase. By starting your subscription and gaining immediate access to the software, you <strong>consent</strong> to immediate performance and <strong>acknowledge that you lose the withdrawal right</strong> once access begins. Nothing in this policy removes mandatory consumer rights in your country.
           </p>
         </section>
 
@@ -47,7 +47,8 @@ export default function Refund() {
         <section className="mb-8">
           <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>Contact</h2>
           <p className="leading-relaxed" style={{ color: "#6e6e73" }}>
-            For refund or cancellation requests, contact us via the support email listed on the GhostPin website.
+            For cancellation requests or billing questions, contact us at{" "}
+            <a href="mailto:ghostpinsupport@gmail.com" style={{ color: "#0071e3" }} className="underline">ghostpinsupport@gmail.com</a>.
           </p>
         </section>
       </div>

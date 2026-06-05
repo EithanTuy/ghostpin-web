@@ -94,7 +94,7 @@ export default function Privacy() {
         <section className="mb-8">
           <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>6. Your rights</h2>
           <p className="leading-relaxed" style={{ color: "#1d1d1f" }}>
-            Depending on where you live (e.g. GDPR in the EU/UK, CCPA/CPRA in California), you may have the right to access, correct, delete, port, or restrict processing of your personal data, to object to processing based on legitimate interests, and to withdraw consent. California residents have the right to know and to delete, and we do <strong>not</strong> sell or "share" personal information for cross-context behavioural advertising. To exercise any right, contact us via our support email. You may also complain to your local data-protection authority.
+            Depending on where you live (e.g. GDPR in the EU/UK, CCPA/CPRA in California), you may have the right to access, correct, delete, port, or restrict processing of your personal data, to object to processing based on legitimate interests, and to withdraw consent. California residents have the right to know and to delete, and we do <strong>not</strong> sell or "share" personal information for cross-context behavioural advertising. To exercise any right, contact us at <a href="mailto:ghostpinsupport@gmail.com" style={{ color: "#0071e3" }} className="underline">ghostpinsupport@gmail.com</a>. You may also complain to your local data-protection authority.
           </p>
         </section>
 
@@ -122,7 +122,7 @@ export default function Privacy() {
         <section className="mb-8">
           <h2 className="text-xl font-bold mb-3" style={{ color: "#1d1d1f" }}>10. Contact</h2>
           <p className="leading-relaxed" style={{ color: "#6e6e73" }}>
-            For privacy-related questions or to exercise your rights, contact us via the support email listed on the GhostPin website.
+            For privacy-related questions or to exercise your rights, contact us at <a href="mailto:ghostpinsupport@gmail.com" style={{ color: "#0071e3" }} className="underline">ghostpinsupport@gmail.com</a>.
           </p>
         </section>
       </div>

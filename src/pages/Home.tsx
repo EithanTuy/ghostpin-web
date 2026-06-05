@@ -362,6 +362,7 @@ export default function Home() {
             {([ ["Terms of Service", "/terms"], ["Privacy Policy", "/privacy"], ["EULA", "/eula"], ["Refund Policy", "/refund"], ["Start trial", "/plans"], ["Manage subscription", "/account"] ] as [string, string][]).map(([label, href]) => (
               <Link key={label} to={href} style={{ color: "#666", textDecoration: "none" }}>{label}</Link>
             ))}
+            <a href="mailto:ghostpinsupport@gmail.com" style={{ color: "#666", textDecoration: "none" }}>Support</a>
           </div>
         </div>
         <p style={{ maxWidth: 1080, margin: "16px auto 0", fontSize: "12px", color: "#aaa" }}>
