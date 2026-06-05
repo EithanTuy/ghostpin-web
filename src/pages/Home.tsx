@@ -136,7 +136,7 @@ export default function Home() {
             <a href="#features" style={navLink}>Features</a>
             <a href="#pricing" style={navLink}>Pricing</a>
             <a href="#faq" style={navLink}>FAQ</a>
-            <Link to="/download" style={{ ...navLink, fontWeight: 600, color: "#0071e3", textDecoration: "none" }}>Download</Link>
+            <Link to="/plans" style={{ ...navLink, fontWeight: 600, color: "#0071e3", textDecoration: "none" }}>Start trial</Link>
           </div>
         </div>
       </nav>
@@ -145,7 +145,7 @@ export default function Home() {
       <div style={{ background: "#fffbf0", borderBottom: "1px solid #f0e6c0", padding: "10px 24px", textAlign: "center" }}>
         <p style={{ margin: 0, fontSize: "13px", color: "#7a5c00" }}>
           <strong>Windows only.</strong> GhostPin is a Windows desktop application. macOS builds are available but experimental. &nbsp;
-          <Link to="/download" style={{ color: "#7a5c00", fontWeight: 600 }}>Download →</Link>
+          <Link to="/plans" style={{ color: "#7a5c00", fontWeight: 600 }}>Start trial →</Link>
         </p>
       </div>
 
@@ -166,11 +166,11 @@ export default function Home() {
         </p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <Link to="/plans" style={btnPrimary}>
-            Get started — $6.60/mo
+            Start free trial — $6.60/mo
           </Link>
-          <Link to="/download" style={btnSecondary}>
-            Free 24-hour trial
-          </Link>
+          <a href="#pricing" style={btnSecondary}>
+            See pricing
+          </a>
         </div>
         <p style={{ marginTop: 14, fontSize: "13px", color: "#999" }}>
           $79.99/year · 24-hour free trial · no account needed · cancel anytime
@@ -369,8 +369,8 @@ export default function Home() {
       {/* Download CTA */}
       <section style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px", textAlign: "center" }}>
         <h2 style={{ ...sectionTitle, margin: "0 0 12px" }}>Try it free for 24 hours</h2>
-        <p style={{ fontSize: "15px", color: "#555", margin: "0 0 28px" }}>No account required. Just download, connect your iPhone, and go.</p>
-        <Link to="/download" style={btnPrimary}>Go to download page →</Link>
+        <p style={{ fontSize: "15px", color: "#555", margin: "0 0 28px" }}>Start your trial, then download and connect your iPhone. Cancel anytime before the trial ends.</p>
+        <Link to="/plans" style={btnPrimary}>Start your free trial →</Link>
         <p style={{ marginTop: 16, fontSize: "13px", color: "#999" }}>Windows 10/11 · ~300 MB · Auto-updates · iOS 17+</p>
       </section>
 
@@ -397,7 +397,7 @@ export default function Home() {
             GhostPin
           </div>
           <div style={{ display: "flex", flexWrap: "wrap", gap: 20, fontSize: "13px" }}>
-            {([ ["Terms of Service", "/terms"], ["Privacy Policy", "/privacy"], ["EULA", "/eula"], ["Refund Policy", "/refund"], ["Download", "/download"], ["Manage subscription", "/account"] ] as [string, string][]).map(([label, href]) => (
+            {([ ["Terms of Service", "/terms"], ["Privacy Policy", "/privacy"], ["EULA", "/eula"], ["Refund Policy", "/refund"], ["Start trial", "/plans"], ["Manage subscription", "/account"] ] as [string, string][]).map(([label, href]) => (
               <Link key={label} to={href} style={{ color: "#666", textDecoration: "none" }}>{label}</Link>
             ))}
           </div>

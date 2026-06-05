@@ -1,33 +1,15 @@
-﻿import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Link, useSearchParams } from "react-router-dom";
-import { startCheckout, type Plan } from "@/lib/api";
+import StripeBuyButton, {
+  BUY_BUTTON_YEARLY,
+  BUY_BUTTON_MONTHLY,
+} from "@/components/StripeBuyButton";
 
 export default function Plans() {
   const [params] = useSearchParams();
   const [tab, setTab] = useState<"yearly" | "monthly">(
     params.get("plan") === "monthly" ? "monthly" : "yearly"
   );
-  const [busy, setBusy] = useState<Plan | null>(null);
-  const [err, setErr] = useState<string | null>(null);
-
-  // Reset "Redirecting…" after 5 s in case navigation stalls
-  useEffect(() => {
-    if (!busy) return;
-    const t = setTimeout(() => setBusy(null), 5000);
-    return () => clearTimeout(t);
-  }, [busy]);
-
-  async function buy(p: Plan) {
-    setErr(null);
-    setBusy(p);
-    try {
-      await startCheckout(p);
-      // page navigates away — if still here after 5s the effect resets busy
-    } catch (e) {
-      setErr(e instanceof Error ? e.message : "Something went wrong.");
-      setBusy(null);
-    }
-  }
 
   return (
     <div style={{ fontFamily: "-apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif", color: "#111", background: "#fff", minHeight: "100vh" }}>
@@ -42,9 +24,9 @@ export default function Plans() {
 
       <div style={{ maxWidth: 480, margin: "0 auto", padding: "64px 24px 80px", textAlign: "center" }}>
 
-        <h1 style={{ fontSize: "clamp(24px, 4vw, 34px)", fontWeight: 700, margin: "0 0 8px" }}>Choose a plan</h1>
+        <h1 style={{ fontSize: "clamp(24px, 4vw, 34px)", fontWeight: 700, margin: "0 0 8px" }}>Start your free trial</h1>
         <p style={{ fontSize: "15px", color: "#555", margin: "0 0 36px", lineHeight: 1.6 }}>
-          24-hour free trial with every download — no card required to try.
+          24-hour free trial included. Cancel anytime before it ends and you won't be charged.
         </p>
 
         {/* Tab toggle */}
@@ -94,29 +76,15 @@ export default function Plans() {
             <p style={{ fontSize: "13px", color: "#888", margin: "0 0 4px" }}>$79.99 billed once per year</p>
             <p style={{ fontSize: "12px", color: "#aaa", margin: "0 0 28px" }}>Save 17% compared to monthly</p>
             <ul style={{ margin: "0 0 28px", padding: "0 0 0 18px", fontSize: "14px", color: "#444", lineHeight: 2.0 }}>
+              <li>24-hour free trial</li>
               <li>Unlimited location changes</li>
               <li>Up to 2 devices</li>
               <li>All future updates</li>
               <li>Cancel anytime</li>
             </ul>
-            <button
-              onClick={() => buy("yearly")}
-              disabled={busy !== null}
-              style={{
-                width: "100%",
-                background: busy === "yearly" ? "#555" : "#0071e3",
-                color: "#fff",
-                border: "none",
-                borderRadius: 7,
-                padding: "13px",
-                fontSize: "15px",
-                fontWeight: 600,
-                cursor: busy !== null ? "default" : "pointer",
-                boxSizing: "border-box",
-              }}
-            >
-              {busy === "yearly" ? "Redirecting…" : "Get started with yearly"}
-            </button>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <StripeBuyButton buyButtonId={BUY_BUTTON_YEARLY} />
+            </div>
           </div>
         )}
 
@@ -131,57 +99,21 @@ export default function Plans() {
             <p style={{ fontSize: "13px", color: "#888", margin: "0 0 4px" }}>Billed monthly</p>
             <p style={{ fontSize: "12px", color: "#aaa", margin: "0 0 28px" }}>Cancel anytime</p>
             <ul style={{ margin: "0 0 28px", padding: "0 0 0 18px", fontSize: "14px", color: "#444", lineHeight: 2.0 }}>
+              <li>24-hour free trial</li>
               <li>Unlimited location changes</li>
               <li>Up to 2 devices</li>
               <li>All future updates</li>
               <li>Cancel anytime</li>
             </ul>
-            <button
-              onClick={() => buy("monthly")}
-              disabled={busy !== null}
-              style={{
-                width: "100%",
-                background: "#fff",
-                color: busy === "monthly" ? "#888" : "#111",
-                border: "1px solid #d0d0d0",
-                borderRadius: 7,
-                padding: "13px",
-                fontSize: "15px",
-                fontWeight: 600,
-                cursor: busy !== null ? "default" : "pointer",
-                boxSizing: "border-box",
-              }}
-            >
-              {busy === "monthly" ? "Redirecting…" : "Get started with monthly"}
-            </button>
+            <div style={{ display: "flex", justifyContent: "center" }}>
+              <StripeBuyButton buyButtonId={BUY_BUTTON_MONTHLY} />
+            </div>
           </div>
         )}
 
-        {err && <p style={{ marginTop: 16, fontSize: "14px", color: "#c00" }}>{err}</p>}
-
         <p style={{ marginTop: 20, fontSize: "13px", color: "#999" }}>
-          Secure checkout via Stripe · You'll receive your license key by email
+          Secure checkout via Stripe · After you start your trial you'll get your license key by email and a download link
         </p>
-
-        <div style={{ marginTop: 32, paddingTop: 24, borderTop: "1px solid #e5e5e5" }}>
-          <p style={{ fontSize: "13px", color: "#888", margin: "0 0 12px" }}>Just want to try it first?</p>
-          <Link
-            to="/download"
-            style={{
-              display: "inline-block",
-              padding: "10px 22px",
-              fontSize: "14px",
-              fontWeight: 600,
-              color: "#0071e3",
-              border: "1px solid #c0d8f5",
-              borderRadius: 7,
-              textDecoration: "none",
-              background: "#f0f7ff",
-            }}
-          >
-            Download free 24-hour trial →
-          </Link>
-        </div>
 
       </div>
 

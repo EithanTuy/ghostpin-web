@@ -100,7 +100,7 @@ export default function Success() {
 
         <div className="mt-8 flex flex-col sm:flex-row gap-3 justify-center">
           <Link
-            to="/download"
+            to={sessionId ? `/download?session_id=${encodeURIComponent(sessionId)}` : "/download"}
             className="bg-[#0071e3] text-[#f5f5f7] px-6 py-3 rounded-xl font-semibold hover:opacity-90 transition-opacity"
           >
             Download GhostPin
