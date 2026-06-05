@@ -240,8 +240,8 @@ function DownloadContent() {
             <ul style={{ margin: 0, padding: "0 0 0 18px", fontSize: "14px", color: "#555", lineHeight: 2 }}>
               <li>Windows 10 or 11 (64-bit)</li>
               <li>~300 MB disk space</li>
-              <li>USB port (USB-A or USB-C)</li>
-              <li>Admin rights (for tunnel, first run only)</li>
+              <li>USB port for first pairing (Wi-Fi after)</li>
+              <li>Administrator rights (granted at launch)</li>
             </ul>
           </div>
           <div>
@@ -249,7 +249,7 @@ function DownloadContent() {
             <ul style={{ margin: 0, padding: "0 0 0 18px", fontSize: "14px", color: "#555", lineHeight: 2 }}>
               <li>iOS 17 or later</li>
               <li>Developer Mode enabled</li>
-              <li>USB cable (Lightning or USB-C)</li>
+              <li>USB cable to pair (then USB or Wi-Fi)</li>
               <li>Trust prompt accepted</li>
             </ul>
           </div>

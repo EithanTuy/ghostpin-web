@@ -17,8 +17,20 @@ const FAQS = [
     a: "Yes, any iPhone or iPad running iOS 17 or later with Developer Mode enabled.",
   },
   {
+    q: "Can I connect over Wi-Fi instead of a cable?",
+    a: "Yes. Pair your iPhone over USB once, then GhostPin can control it wirelessly over the same Wi-Fi network — no cable needed after the first setup.",
+  },
+  {
+    q: "Can it route between two addresses?",
+    a: "Yes. Type a start and destination, choose walk, cycle, or drive, and GhostPin builds a real route that follows actual roads. Driving routes simulate acceleration, braking, traffic stops, and changing road speeds so the movement looks natural.",
+  },
+  {
     q: "Do I need iTunes or Xcode installed?",
     a: "No. GhostPin installs all required Apple drivers automatically on first run.",
+  },
+  {
+    q: "Why does GhostPin ask for administrator permission?",
+    a: "On iOS 17 and later, Apple requires a privileged tunnel for developer services. GhostPin requests administrator rights once at launch so it can start that tunnel for you automatically.",
   },
   {
     q: "What happens to my GPS when I close the app?",
@@ -33,8 +45,8 @@ const FAQS = [
     a: "Yes but it's secondary. The Windows build is the primary supported version. macOS builds are available but may lag behind on updates.",
   },
   {
-    q: "What happens after the 24-hour trial ends?",
-    a: "The app stops letting you change your GPS location. Your history and settings stay intact. Subscribe to unlock unlimited use.",
+    q: "How does the free trial work?",
+    a: "Every plan starts with a 24-hour free trial through Stripe. You won't be charged during the trial — cancel any time before it ends and you pay nothing. If you don't cancel, your subscription begins automatically and the app keeps working.",
   },
 ];
 
@@ -139,7 +151,7 @@ export default function Home() {
           Click anywhere on the map and your iPhone's GPS updates instantly. Requires iOS 17 or later. No jailbreak.
         </p>
         <p style={{ fontSize: "14px", color: "#888", margin: "0 0 32px" }}>
-          Works with iPhone and iPad · Developer Mode required · USB connection
+          Works with iPhone and iPad · Developer Mode required · Connect over USB or Wi-Fi
         </p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <Link to="/plans" style={btnPrimary}>
@@ -167,11 +179,14 @@ export default function Home() {
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
           {[
             { title: "Click-to-teleport", body: "Click anywhere on the map and your iPhone's GPS updates in real time. Every app on your phone sees the new location immediately." },
-            { title: "Route simulation", body: "Draw a multi-point route and play it back at walking, cycling, or driving speed. Pause and resume mid-route." },
+            { title: "Address-to-address routing", body: "Type a start and destination, pick walk, cycle, or drive, and GhostPin builds a real route between them that follows actual roads." },
+            { title: "Realistic driving", body: "Driving routes simulate acceleration, braking, traffic stops at intersections, and varying road speeds — not a robotic straight line." },
+            { title: "Route simulation", body: "Drop waypoints on the map and play the route back at walking, cycling, or driving speed. The path snaps to roads. Pause and resume mid-route." },
+            { title: "Connect over USB or Wi-Fi", body: "Plug in over USB, or once paired, control your iPhone wirelessly over the same Wi-Fi network — no cable needed." },
             { title: "GPX import", body: "Import any .gpx file from Google Maps, Strava, or other mapping tools and replay it at any speed." },
             { title: "GPS joystick", body: "Nudge your position 1m, 10m, 100m, or 1km in any direction using the directional pad in the sidebar." },
             { title: "Auto-reset on close", body: "Your real GPS is restored the moment GhostPin closes. No lingering changes to your device." },
-            { title: "Auto-updates", body: "New versions download and install silently. You're always on the latest build." },
+            { title: "Auto-updates", body: "New versions download and install in the background. You're always on the latest build." },
           ].map(({ title, body }) => (
             <div key={title} style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: "24px" }}>
               <h3 style={{ fontSize: "15px", fontWeight: 600, margin: "0 0 8px" }}>{title}</h3>
@@ -187,10 +202,10 @@ export default function Home() {
           <h2 style={sectionTitle}>How it works</h2>
           <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(220px, 1fr))", gap: 20 }}>
             {[
-              { n: "1", title: "Connect via USB", body: "Plug your iPhone into your Windows PC. GhostPin handles Apple drivers automatically on first run." },
-              { n: "2", title: "Enable Developer Mode", body: "Settings → Privacy & Security → Developer Mode. One-time toggle. Requires iOS 17+." },
+              { n: "1", title: "Connect via USB", body: "Plug your iPhone into your Windows PC. GhostPin handles Apple drivers automatically on first run. After pairing once, you can switch to Wi-Fi." },
+              { n: "2", title: "Enable Developer Mode", body: "Settings → Privacy & Security → Developer Mode. One-time toggle. GhostPin walks you through it if it's off." },
               { n: "3", title: "Trust the computer", body: "Tap Trust on your iPhone when prompted. Done once, remembered forever." },
-              { n: "4", title: "Click the map", body: "Your iPhone is wherever you click. Use route mode or the joystick for movement." },
+              { n: "4", title: "Set your location", body: "Click the map to teleport, route between two addresses, or use the joystick to fine-tune your position." },
             ].map(({ n, title, body }) => (
               <div key={n} style={{ padding: "24px", background: "#fff", border: "1px solid #e5e5e5", borderRadius: 8 }}>
                 <div style={{ fontSize: "11px", fontWeight: 700, color: "#0071e3", marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.08em" }}>Step {n}</div>
