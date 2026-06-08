@@ -23,3 +23,7 @@ dist-ssr
 *.sln
 *.sw?
 .env
+
+# Graphify knowledge graph (generated, auto-rebuilt by the git hook)
+graphify-out/
+.graphifyignore

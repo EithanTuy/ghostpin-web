@@ -9,6 +9,14 @@ const FAQS = [
     a: "No. GhostPin uses Apple's official developer protocol over USB — the same channel Xcode uses. No jailbreak, no sideloading.",
   },
   {
+    q: "Does every app on the device see the simulated location?",
+    a: "Yes. GhostPin sets the location at the system level through Apple's developer services, so CoreLocation — and anything built on it, including your own builds, Maps, fitness, and ride-share apps — reads the simulated coordinates.",
+  },
+  {
+    q: "What can I use it for?",
+    a: "Manual testing of location-aware features on a real device: geofencing and region monitoring, live tracking and turn-by-turn, distance and speed logic, and reproducing location-specific bugs without leaving your desk.",
+  },
+  {
     q: "What iOS version is required?",
     a: "iOS 17 or later. Developer Mode must be enabled on the device (Settings → Privacy & Security → Developer Mode).",
   },
@@ -142,16 +150,16 @@ export default function Home() {
       <section style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px 64px" }}>
         <div style={{ fontSize: "72px", lineHeight: 1, marginBottom: 24, filter: "drop-shadow(0 0 24px rgba(0,113,227,0.35))" }}>👻</div>
         <p style={{ fontSize: "13px", fontWeight: 600, color: "#0071e3", marginBottom: 14, textTransform: "uppercase", letterSpacing: "0.06em" }}>
-          iPhone GPS simulator for Windows
+          iOS location simulator for developers
         </p>
         <h1 style={{ fontSize: "clamp(34px, 5.5vw, 58px)", fontWeight: 700, lineHeight: 1.1, margin: "0 0 20px", maxWidth: 620 }}>
-          Fake your iPhone's location from your PC.
+          Simulate any GPS location on a real iPhone.
         </h1>
         <p style={{ fontSize: "17px", lineHeight: 1.65, color: "#555", maxWidth: 500, margin: "0 0 12px" }}>
-          Click anywhere on the map and your iPhone's GPS updates instantly. Requires iOS 17 or later. No jailbreak.
+          Test location-aware apps on real hardware. Drop a pin and CoreLocation reports it to every app on the device — instantly. iOS 17+, no jailbreak.
         </p>
         <p style={{ fontSize: "14px", color: "#888", margin: "0 0 32px" }}>
-          Works with iPhone and iPad · Developer Mode required · Connect over USB or Wi-Fi
+          iPhone and iPad · Developer Mode · over USB or Wi-Fi, the same channel Xcode uses
         </p>
         <div style={{ display: "flex", gap: 12, flexWrap: "wrap" }}>
           <Link to="/plans" style={btnPrimary}>
@@ -178,14 +186,14 @@ export default function Home() {
         <h2 style={sectionTitle}>Features</h2>
         <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fill, minmax(280px, 1fr))", gap: 20 }}>
           {[
-            { title: "Click-to-teleport", body: "Click anywhere on the map and your iPhone's GPS updates in real time. Every app on your phone sees the new location immediately." },
-            { title: "Address-to-address routing", body: "Type a start and destination, pick walk, cycle, or drive, and GhostPin builds a real route between them that follows actual roads." },
-            { title: "Realistic driving", body: "Driving routes simulate acceleration, braking, traffic stops at intersections, and varying road speeds — not a robotic straight line." },
-            { title: "Route simulation", body: "Drop waypoints on the map and play the route back at walking, cycling, or driving speed. The path snaps to roads. Pause and resume mid-route." },
-            { title: "Connect over USB or Wi-Fi", body: "Plug in over USB, or once paired, control your iPhone wirelessly over the same Wi-Fi network — no cable needed." },
-            { title: "GPX import", body: "Import any .gpx file from Google Maps, Strava, or other mapping tools and replay it at any speed." },
-            { title: "GPS joystick", body: "Nudge your position 1m, 10m, 100m, or 1km in any direction using the directional pad in the sidebar." },
-            { title: "Auto-reset on close", body: "Your real GPS is restored the moment GhostPin closes. No lingering changes to your device." },
+            { title: "Pin any coordinate", body: "Click the map to set an exact lat/long. CoreLocation, MapKit, and every location-aware app on the device read it in real time." },
+            { title: "Address-to-address routing", body: "Type a start and destination, pick walk, cycle, or drive, and GhostPin builds a real route along actual roads — handy for exercising turn-by-turn and live-tracking code." },
+            { title: "Realistic driving", body: "Driving routes simulate acceleration, braking, traffic stops at intersections, and varying road speeds, so speed- and heading-dependent logic sees lifelike movement — not a robotic straight line." },
+            { title: "Route playback", body: "Drop waypoints and play the route back at walking, cycling, or driving speed. The path snaps to roads. Pause and resume mid-route." },
+            { title: "Connect over USB or Wi-Fi", body: "Plug in over USB, or once paired, drive your iPhone wirelessly over the same Wi-Fi network — no cable needed." },
+            { title: "GPX replay", body: "Import a .gpx trace from Strava, Google Maps, or your own test fixtures and replay it at any speed for reproducible runs." },
+            { title: "Precision nudge", body: "Step your position 1m, 10m, 100m, or 1km in any direction — ideal for probing geofence and region-monitoring boundaries." },
+            { title: "Clean teardown", body: "Real GPS is restored the moment GhostPin closes. No profiles installed, no lingering changes to device state." },
             { title: "Auto-updates", body: "New versions download and install in the background. You're always on the latest build." },
           ].map(({ title, body }) => (
             <div key={title} style={{ border: "1px solid #e5e5e5", borderRadius: 8, padding: "24px" }}>
@@ -205,7 +213,7 @@ export default function Home() {
               { n: "1", title: "Connect via USB", body: "Plug your iPhone into your Windows PC. GhostPin handles Apple drivers automatically on first run. After pairing once, you can switch to Wi-Fi." },
               { n: "2", title: "Enable Developer Mode", body: "Settings → Privacy & Security → Developer Mode. One-time toggle. GhostPin walks you through it if it's off." },
               { n: "3", title: "Trust the computer", body: "Tap Trust on your iPhone when prompted. Done once, remembered forever." },
-              { n: "4", title: "Set your location", body: "Click the map to teleport, route between two addresses, or use the joystick to fine-tune your position." },
+              { n: "4", title: "Set a location", body: "Your test device reports wherever you pin — teleport on the map, route between two addresses, or fine-tune with the joystick." },
             ].map(({ n, title, body }) => (
               <div key={n} style={{ padding: "24px", background: "#fff", border: "1px solid #e5e5e5", borderRadius: 8 }}>
                 <div style={{ fontSize: "11px", fontWeight: 700, color: "#0071e3", marginBottom: 10, textTransform: "uppercase", letterSpacing: "0.08em" }}>Step {n}</div>
@@ -360,7 +368,7 @@ export default function Home() {
 
       {/* Download CTA */}
       <section style={{ maxWidth: 1080, margin: "0 auto", padding: "72px 24px", textAlign: "center" }}>
-        <h2 style={{ ...sectionTitle, margin: "0 0 12px" }}>Try it free for 24 hours</h2>
+        <h2 style={{ ...sectionTitle, margin: "0 0 12px" }}>Test on your own device, free for 24 hours</h2>
         <p style={{ fontSize: "15px", color: "#555", margin: "0 0 28px" }}>Start your trial, then download and connect your iPhone. Cancel anytime before the trial ends.</p>
         <Link to="/plans" style={btnPrimary}>Start your free trial →</Link>
         <p style={{ marginTop: 16, fontSize: "13px", color: "#999" }}>Windows 10/11 · ~300 MB · Auto-updates · iOS 17+</p>
